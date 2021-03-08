@@ -1,0 +1,28 @@
+{
+  "name": "bpg-quadrosquare-2013",
+  "description": "BPG QuadroSquare 2013 Web-Font Package",
+  "version": "1.0.0",
+  "keywords": ["ttf", "woff", "woff2", "svg", "font", "web-font", "bpg-quadrosquare-2013"],
+  "main": [
+    "css/bpg-quadrosquare-2013.css"
+  ],
+  "homepage": "https://github.com/web-fonts/bpg-quadrosquare-2013",
+  "authors": [
+    "Lado Lomidze <lado.lomidze@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-fonts/bpg-quadrosquare-2013.git"
+  },
+  "license": ["MIT", "CC-BY-NC-ND-4.0"],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "*.md",
+    "font.json",
+    "package.json"
+  ]
+}

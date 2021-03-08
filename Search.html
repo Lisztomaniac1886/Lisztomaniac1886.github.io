@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <title>ცნობარი</title>
+    <link rel="shortcut icon" type="image/icon" href="media/Favicon.ico">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+</style>
+</head>
+<body>
+  <center>
+<h2>ბეიტსის მოტელის ენციკლოპედიის ცნობარი</h2>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="მოძებნეთ სასურველი გვერდი" title="შეიყვანეთ საძიებო სიტყვა">
+
+<ul id="myUL">
+  <li><a href="Norman_Bates.html">ნორმან ბეიტსი</a></li>
+  <li><a href="Norma_Bates.html">ნორმა ბეიტსი</a></li>
+  <li><a href="Dylan_Massett.html">დილან მასეტი</a></li>
+  <li><a href="Emma_Decody.html">ემა დეკოდი</a></li>
+  <li><a href="Alex_Romero.html">ალექს რომერო</a></li>
+  <li><a href="Caleb_Calhoun.html">კელებ კალჰუნი</a></li>
+  <li><a href="Chick_Hogan.html">ჩიკ ჰოგანი</a></li>
+  <li><a href="Bradley_Martin.html">ბრედლი მარტინი</a></li>
+  <li><a href="Gunner.html">განერი</a></li>
+  <li><a href="Remo_Wallace.html">რემო უოლესი</a></li>
+  <li><a href="Regina.html">რეჯინა</a></li>
+  <li><a href="">მედელინ ლუმისი</a></li>
+  <li><a href="">ბობ პარისი</a></li>
+  <li><a href="">ზეინ მორგანი</a></li>
+  <li><a href="">გრეგ ედვარდსი</a></li>
+  <li><a href="">უილ დეკოდი</a></li>
+  <li><a href="">ნიკ ფორდი</a></li>
+  <li><a href="">ბლერ უოტსონი</a></li>
+  <li><a href="">ზაკ შელბი</a></li>
+  <li><a href="">რებეკა ჰამილტონი</a></li>
+  <li><a href="">კოდი ბრენენი</a></li>
+  <li><a href="">ჯეიმს ფინიგანი</a></li>
+  <li><a href="">სამ ლუმისი</a></li>
+  <li><a href="">ჯეინ გრინი</a></li>
+  <li><a href="">ჯორჯ ჰელდენსი</a></li>
+  <li><a href="">ჯენა</a></li>
+  <li><a href="">კრისტინ ჰელდენსი</a></li>
+    <li><a href="">ჯიაო</a></li>
+    <li><a href="">გილ ტერნერი</a></li>
+    <li><a href="">ჯოდი მორგანი</a></li>
+    <li><a href="">Tresspasser</a></li>
+    <li><a href="">ლისა</a></li>
+    <li><a href="">მეგი სამერსი</a></li>
+    <li><a href="">დიკი ბოლტონი</a></li>
+    <li><a href="">Liz Babbitt</a></li>
+    <li><a href="">ჯეიკ აბერნატი</a></li>
+    <li><a href="">ჯულიან ჰოუ</a></li>
+    <li><a href="">სემ ბეიტსი</a></li>
+    <li><a href="">მარკუს იანგი</a></li>
+    <li><a href="">რიჩარდ სილმორი</a></li>
+    <li><a href="">ვიკი მონრო</a></li>
+    <li><a href="">ჰაიდენი</a></li>
+    <li><a href="">მოადგილე ჯეფკოატი</a></li>
+    <li><a href="">ექთანი პენი</a></li>
+    <li><a href="">ეთან ჩანგი</a></li>
+    <li><a href="">ჰოვარდ კოლინსი</a></li>
+    <li><a href="">ანიკა ჯონსონი</a></li>
+    <li><a href="">მოადგილე ბილი მილერი</a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+</ul>
+
+<script>
+function myFunction() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+</center>
+</body>
+</html>

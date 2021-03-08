@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'BPG QuadroSquare Caps 2013';
+    src: url('../fonts/bpg-quadrosquare-caps-2013-webfont.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/bpg-quadrosquare-caps-2013-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/bpg-quadrosquare-caps-2013-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/bpg-quadrosquare-caps-2013-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+         url('../fonts/bpg-quadrosquare-caps-2013-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/bpg-quadrosquare-caps-2013-webfont.svg#bpg_quadrosquare_caps_2013regular') format('svg'); /* Legacy iOS */
+}
