@@ -624,7 +624,7 @@ document.write("			<\/div>");
 document.write("		<\/li>");
 document.write("					<li class=\"wds-tabs__tab\">");
 document.write("				<div class=\"wds-tabs__tab-label\">");
-document.write("					<a href=\"search.html\"");
+document.write("					<a href=\"Search.html\"");
 document.write("												data-tracking=\"discuss\"");
 document.write("					>");
 document.write("						<svg class=\"wds-icon-tiny wds-icon\"><use xlink:href=\"#wds-icons-magnifying-glass\"><\/use><\/svg>						<span>ძებნა ცნობარში<\/span>");
