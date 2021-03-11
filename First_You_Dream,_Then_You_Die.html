@@ -213,6 +213,7 @@
 <li><a href="Stephen_Boersma.html" title="სტივენ ბოერსმა">სტივენ ბოერსმა</a> — <a href="Unnamed_dude.html" title="უსახელო ბიჭი">ბიჭი #1</a></li></ul>
 <h2><span class="mw-headline" id="Notes">შენიშვნები</span></h2>
 <ul><li>ამ ეპიზოდის მაყურებელთა რაოდენობამ შეადგინა 3.04&#160;მლნ-ს, რაც მას <a href="Season_1.html" title="პირველი სეზონი">პირველი სეზონის</a> ყველაზე ნახვად ეპიზოდად აქცევს.</li>
+  <li>ამ ეპიზოდის ეთერში გასვლიდან გავიდა <span id="timepassed"></span></li>
 <li>მიუხედავად იმისა, რომ <a href="Max_Thieriot.html" title="მაქს ტირიოტი">მაქს ტირიოტის</a>&#160;(<a href="Dylan_Massett.html" title="დილან მასეტი">დილან მასეტი</a>) სახელი მითითებულია, ის ეპიზოდში ფიზიკურად არ ჩნდება.</li>
 <li>ეპიზოდის დასაწყისში, სანამ ნორმანი მამამისის ცხედარს იპოვის, ნაჩვენებია კედელზე გაკრული ჩიტების სურათები. ეს მიემართება ფილმ <a href="Psycho_(movie).html" title="ფსიქო (ფილმი)">„ფსიქოს“</a>, რომელშიც მოტელის კედლები შემკულია ჩიტების სურათებით.</li>
 <li>როცა ნორმანს მანქანიდან ბარგი გადმოაქვს, ფანჯრიდან დაინახავს ღამის პერანგში გამოწყობილ ნორმას. ეს მიუთითებს იმაზე, რომ ფილმში ნორმანი მოჭვრიტინე ტომი ხდება.</li>
@@ -398,7 +399,129 @@ document.write(diffYears)
 							<!-- end SkinAfterContent output -->
 						</div>
                         </div></article></div>
+                        <script>
+        setInterval(function(){
+var currentTime = new Date()
+var seconds = currentTime.getSeconds()
+var minutes = currentTime.getMinutes()
+var hour1 = 7
+var hour2 = currentTime.getHours()
+var hours = hour2 - hour1
+if (hour2 - hour1 < 0) {
+    hours = 24 - hour1 + hour2
+}
+var day1 = 18
+var day2 = currentTime.getDate();
+const conditionsArray1 = [
+    currentTime.getMonth() < 1,
+]
+const conditionsArray2 = [
+    currentTime.getMonth() > 0,
+    currentTime.getMonth() < 2,
+]
+const conditionsArray3 = [
+    currentTime.getMonth() > 1,
+    currentTime.getMonth() < 3,
+]
+const conditionsArray4 = [
+    currentTime.getMonth() > 2,
+    currentTime.getMonth() < 4,
 
+]
+const conditionsArray5 = [
+    currentTime.getMonth() > 3,
+    currentTime.getMonth() < 5,
+
+]
+const conditionsArray6 = [
+    currentTime.getMonth() > 4,
+    currentTime.getMonth() < 6,
+
+]
+const conditionsArray7 = [
+    currentTime.getMonth() > 5,
+    currentTime.getMonth() < 7,
+
+]
+const conditionsArray8 = [
+    currentTime.getMonth() > 6,
+    currentTime.getMonth() < 8,
+
+]
+const conditionsArray9 = [
+    currentTime.getMonth() > 7,
+    currentTime.getMonth() < 9,
+
+]
+const conditionsArray10 = [
+    currentTime.getMonth() > 8,
+    currentTime.getMonth() < 10,
+
+]
+const conditionsArray11 = [
+    currentTime.getMonth() > 9,
+    currentTime.getMonth() < 11,
+
+]
+const conditionsArray12 = [
+    currentTime.getMonth() > 10,
+    currentTime.getMonth() < 12,
+
+]
+var dayssum = Math.abs(day1 - day2)
+            if (conditionsArray1) {
+    days = 31 - dayssum
+}
+            if (conditionsArray2) {
+    days = 31 - dayssum
+}
+            if (conditionsArray3) {
+    days = 28 - dayssum
+}
+            if (conditionsArray4) {
+    days = 31 - dayssum
+}
+            if (conditionsArray5) {
+    days = 30 - dayssum
+}
+            if (conditionsArray6) {
+    days = 31 - dayssum
+}
+            if (conditionsArray7) {
+    days = 30 - dayssum
+}
+            if (conditionsArray8) {
+    days = 31 - dayssum
+}
+            if (conditionsArray9) {
+    days = 31 - dayssum
+}
+            if (conditionsArray10) {
+    days = 30 - dayssum
+}
+            if (conditionsArray11) {
+    days = 31 - dayssum
+}
+                  if (conditionsArray12) {
+    days = 30 - dayssum
+}
+var month1 = 3
+var month2 = currentTime.getMonth() +1;
+var months = month1 - month2
+if (day1 - day2 < 0) {
+    months = month1 - month2 - 1
+}
+if (month1 - month2 - 1 < 0) {
+    months = 11 - month1 + month2
+}
+var year1 = 2013
+var year2 = currentTime.getFullYear()
+var years = year2 - year1
+if (month1 - month2 - 1 < 0) {
+    years = year2 - year1 - 1
+}
+document.getElementById("timepassed").innerHTML = years + "&nbspწელი,&nbsp" + months + "&nbspთვე,&nbsp" + days + "&nbspდღე,&nbsp" + hours + "&nbspსაათი,&nbsp" + minutes + "&nbspწუთი&nbspდა&nbsp" + seconds + "&nbspწამი."; }, 1000);
+        </script>
 
                         <!-- <script>
                         // When the user clicks on <div>, open the popup
