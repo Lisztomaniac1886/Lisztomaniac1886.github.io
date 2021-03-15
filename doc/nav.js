@@ -14,7 +14,9 @@ document.write("		<\/div>");
 document.write("		<div class=\"wds-community-header__top-container\">");
 document.write("		<div class=\"wds-community-header__sitename\" data-tracking=\"sitename\">");
 document.write("        <div class=\"wds-community-header__sitename-font\">")
+document.write("<span style=\"font-family: 'Ertizomis5'\">");
 document.write("			<a href=\"index.html\">ბეიტსის მოტელის ენციკლოპედია<\/a>");
+document.write("<\/span>")
 document.write("					<\/div>");
 document.write("					<\/div>");
 document.write("	<\/div>");
