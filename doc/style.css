@@ -4428,7 +4428,7 @@ img {
 }
 
 body {
-    overflow-x: hidden
+    overflow-x:hidden;
 }
 
 body.background-image {
@@ -9385,13 +9385,9 @@ a.wds-button,button.wds-button {
     justify-content: space-between
 }
 
-.page-share-dialog__curtain.wds-dialog__curtain {
+.age-share-dialog__curtain .wds-dialog__curtain {
+    visibility: hidden;
     z-index: 500;
-    display: none;
-}
-.age-share-dialog__curtain.wds-dialog__curtain:target {
-    z-index: 500;
-    display: block;
 }
 
 .page-share-dialog__content.wds-dialog__content {
