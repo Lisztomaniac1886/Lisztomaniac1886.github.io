@@ -14,4 +14,5 @@ RewriteCond %{REQUEST_FILENAME}\.html !-f
 
 RewriteRule ^(.*)$ $1.html [NC,L]
 
-ErrorDocument 404 /error.html
+RewriteEngine on
+ErrorDocument 404   https://lisztomaniac1886.github.io/error
