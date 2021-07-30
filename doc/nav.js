@@ -20,7 +20,7 @@ document.write("<\/span>")
 document.write("					<\/div>");
 document.write("					<\/div>");
 document.write("	<\/div>");
-document.write("	<nav class=\"wds-community-header__local-navigation\">");
+document.write("	<nav class=\"wds-community-header__local-navigation\" style=\"font-family: 'Rubik,Helvetica Neue,Helvetica,Arial,sans-serif'\">");
 document.write("	<ul class=\"wds-tabs\">");
 document.write("					<li class=\"wds-tabs__tab\">");
 document.write("									<div class=\"wds-dropdown\">");
