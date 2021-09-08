@@ -1,1 +1,0 @@
-ALTER TABLE /*_*/video DROP COLUMN video_user_name;
