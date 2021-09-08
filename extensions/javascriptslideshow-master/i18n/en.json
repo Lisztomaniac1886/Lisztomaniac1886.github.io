@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"javascriptslideshow-desc": "Create a slideshow from multiple included div elements",
+	"javascriptslideshow-error-html5": "$wgHtml5 must be set to true for this extension to work",
+	"javascriptslideshow-error-unknown": "Something went totally wrong when we ended up here",
+	"javascriptslideshow-invalid-parameter": "Invalid value $2 for parameter $1 (May be one of: $3). ",
+	"javascriptslideshow-invalid-num-parameter": "Parameter $1 must be a number"
+}

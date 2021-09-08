@@ -1,0 +1,15 @@
+{
+	"extends": [
+		"stylelint-config-idiomatic-order",
+		"stylelint-config-wikimedia"
+	],
+	"ignoreFiles": [
+		"resources/libraries/**.{css|less}"
+	],
+	"rules": {
+		"declaration-no-important": null,
+		"no-descending-specificity": null,
+		"no-duplicate-selectors": null,
+		"selector-max-id": null
+	}
+}

@@ -1,0 +1,59 @@
+{
+	"name": "Javascript Slideshow",
+	"version": "2.0.0",
+	"author": [
+		"Chris Reigrut",
+		"Yaron Koren",
+		"[http://www.dasch-tour.de DaSch]",
+		"Alexia E. Smith",
+		"Nick White"
+	],
+	"url": "https://gitlab.com/hydrawiki/extensions/javascriptslideshow",
+	"descriptionmsg": "javascriptslideshow-desc",
+	"license-name": "GPL-3.0-or-later",
+	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.29.0"
+	},
+	"ExtensionFunctions": [
+		"JavascriptSlideshowHooks::extensionHook"
+	],
+	"MessagesDirs": {
+		"JavascriptSlideshow": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"JavascriptSlideshowMagic": "JavascriptSlideshow.i18n.magic.php"
+	},
+	"AutoloadClasses": {
+		"JavascriptSlideshowHooks": "JavascriptSlideshow.hooks.php"
+	},
+	"ResourceModules": {
+		"ext.slideshow.main": {
+			"dependencies":[
+                "mediawiki.jqueryMsg"
+        	],
+			"scripts": [
+				"js/slideshow.js"
+			],
+			"position": "top"
+		},
+		"ext.slideshow.css": {
+			"styles": [
+				"css/JavascriptSlideshow.css"
+			],
+			"position": "top"
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "/",
+		"remoteExtPath": "JavascriptSlideshow"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"JavascriptSlideshowHooks::wfSlideshowExtension"
+		]
+	},
+	"manifest_version": 1
+}

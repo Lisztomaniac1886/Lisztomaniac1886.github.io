@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"01miki10"
+		]
+	},
+	"cosmos-desc": "Cosmos on Fandomin Oasis-ulkoasuun perustuva ulkoasu. Se on suunniteltu sen parannukseksi ja tarjoamaan tehokkaan MediaWiki-ulkoasun Fandomin ulkopuolisille tai sieltä pois siirtyville käyttäjille.",
+	"cosmos-anonymous": "Anonyymi",
+	"cosmos-counter-label": "{{PLURAL:$1|artikkeli|artikkelia}}",
+	"cosmos-createpage-header": "Luo uusi artikkeli",
+	"cosmos-createpage-input-label": "Kirjoita sivun nimi tähän:",
+	"cosmos-createpage-next": "Seuraava",
+	"cosmos-personaltools-userpage": "Käyttäjäsivu",
+	"cosmos-personaltools-usertalk": "Keskustelu käyttäjästä",
+	"cosmos-personaltools-anontalk": "Keskustelusivuni",
+	"cosmos-action-addsection": "Uusi aihe",
+	"cosmos-action-cancel": "Peruuta",
+	"cosmos-action-back": "Takaisin",
+	"cosmos-add-new-page-title": "Lisää uusi sivu",
+	"cosmos-add-new-page-text": "Lisää",
+	"cosmos-anon-add-new-page-text": "Lisää uusi sivu",
+	"cosmos-mobile-preference": "Ota käyttöön Cosmos-ulkoasun responsiivinen mobiiliversio",
+	"cosmos-user-blocked": "Estetty"
+}

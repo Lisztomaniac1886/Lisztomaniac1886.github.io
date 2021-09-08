@@ -1,0 +1,1 @@
+$ mwscript update.php

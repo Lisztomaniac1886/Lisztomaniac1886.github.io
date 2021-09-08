@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"cosmos-desc": "Cosmos er ei drakt designet og basert på Fandoms Oasis-drakt. Den er designet for å forbedre deres design, og gi ei effektiv MediaWiki-drakt for brukere utenfor Fandom, eller for brukere på vei vekk fra Fandom.",
+	"cosmos-anonymous": "Anonym",
+	"cosmos-counter-label": "{{PLURAL:$1|Artikkel|Artikler}}",
+	"cosmos-createpage-header": "Opprett en ny artikkel",
+	"cosmos-createpage-input-label": "Skriv inn sidetittelen her:",
+	"cosmos-createpage-next": "Neste",
+	"cosmos-personaltools-userpage": "Brukerside",
+	"cosmos-personaltools-usertalk": "Brukerdiskusjon",
+	"cosmos-personaltools-anontalk": "Min diskusjon",
+	"cosmos-action-addsection": "Nytt emne",
+	"cosmos-action-cancel": "Avbryt",
+	"cosmos-action-backtopage": "Tilbake til $1",
+	"cosmos-action-back": "Tilbake",
+	"cosmos-add-new-page-title": "Legg til ny side",
+	"cosmos-add-new-page-text": "Legg til",
+	"cosmos-anon-add-new-page-text": "Legg til ny side",
+	"cosmos-explore": "Utforsk",
+	"prefs-cosmos-responsiveness": "Mobil responsivitet for Cosmos",
+	"cosmos-mobile-preference": "Slå på mobilresponsiv versjon av Cosmos-drakta",
+	"cosmos-user-blocked": "Blokkert"
+}

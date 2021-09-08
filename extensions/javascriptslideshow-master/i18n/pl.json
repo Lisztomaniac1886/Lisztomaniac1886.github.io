@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Rail"
+		]
+	},
+	"javascriptslideshow-desc": "Stwórz pokaz slajdów dla wielu elementów zawartych w tagu div",
+	"javascriptslideshow-error-html5": "Wartość zmiennej $wgHtml5 musi wynosić true, aby to rozszerzenie działało",
+	"javascriptslideshow-error-unknown": "Coś poszło nie tak gdy generowaliśmy pokaz slajdów",
+	"javascriptslideshow-invalid-parameter": "Niewłaściwa wartość $2 dla parametru $1 (Może być jedną z następujących: $3). ",
+	"javascriptslideshow-invalid-num-parameter": "Parametr $1 musi być liczbą"
+}
