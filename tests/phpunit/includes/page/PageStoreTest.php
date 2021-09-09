@@ -25,6 +25,7 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 	use MockTitleTrait;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->tablesUsed[] = 'page';
 	}
 
@@ -50,6 +51,7 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 			$serviceOptions,
 			$services->getDBLoadBalancer(),
 			$services->getNamespaceInfo(),
+			$services->getTitleParser(),
 			$wikiId
 		);
 	}
@@ -192,6 +194,58 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
+	 * @covers \MediaWiki\Page\PageStore::getPageByText
+	 */
+	public function testGetPageByText_existing() {
+		$existingPage = $this->getExistingTestPage();
+
+		$pageStore = $this->getPageStore();
+		$page = $pageStore->getPageByText( $existingPage->getTitle()->getPrefixedText() );
+
+		$this->assertTrue( $page->exists() );
+		$this->assertSamePage( $existingPage, $page );
+
+		$page = $pageStore->getExistingPageByText( $existingPage->getTitle()->getPrefixedText() );
+
+		$this->assertTrue( $page->exists() );
+		$this->assertSamePage( $existingPage, $page );
+	}
+
+	/**
+	 * @covers \MediaWiki\Page\PageStore::getPageByText
+	 */
+	public function testGetPageByText_nonexisting() {
+		$nonexistingPage = $this->getNonexistingTestPage();
+		$pageStore = $this->getPageStore();
+		$page = $pageStore->getPageByText( $nonexistingPage->getTitle()->getPrefixedText() );
+		$this->assertFalse( $page->exists() );
+		$this->assertTrue( $nonexistingPage->isSamePageAs( $page ) );
+	}
+
+	/**
+	 * @covers \MediaWiki\Page\PageStore::getExistingPageByText
+	 */
+	public function testGetExistingPageByText_existing() {
+		$existingPage = $this->getExistingTestPage();
+
+		$pageStore = $this->getPageStore();
+		$page = $pageStore->getExistingPageByText( $existingPage->getTitle()->getPrefixedText() );
+
+		$this->assertTrue( $page->exists() );
+		$this->assertSamePage( $existingPage, $page );
+	}
+
+	/**
+	 * @covers \MediaWiki\Page\PageStore::getExistingPageByText
+	 */
+	public function testGetExistingPageByText_nonexisting() {
+		$nonexistingPage = $this->getNonexistingTestPage();
+		$pageStore = $this->getPageStore();
+		$page = $pageStore->getExistingPageByText( $nonexistingPage->getTitle()->getPrefixedText() );
+		$this->assertNull( $page );
+	}
+
+	/**
 	 * Configure the load balancer to route queries for the "foreign" domain to the test DB.
 	 *
 	 * @param string $wikiId
@@ -241,6 +295,34 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 		$pageStore->getPageByName( $ns, $dbkey );
 	}
 
+	public function provideInvalidTitleText() {
+		yield 'empty' => [ '' ];
+		yield 'section' => [ '#foo' ];
+		yield 'autoblock' => [ 'User:#12345' ];
+		yield 'special' => [ 'Special:RecentChanges' ];
+		yield 'invalid' => [ 'foo|bar' ];
+	}
+
+	/**
+	 * @dataProvider provideInvalidTitleText
+	 * @covers \MediaWiki\Page\PageStore::getPageByText
+	 */
+	public function testGetPageByText_invalid( $text ) {
+		$pageStore = $this->getPageStore();
+		$page = $pageStore->getPageByText( $text );
+		$this->assertNull( $page );
+	}
+
+	/**
+	 * @dataProvider provideInvalidTitleText
+	 * @covers \MediaWiki\Page\PageStore::getExistingPageByText
+	 */
+	public function testGetExistingPageByText_invalid( $text ) {
+		$pageStore = $this->getPageStore();
+		$page = $pageStore->getExistingPageByText( $text );
+		$this->assertNull( $page );
+	}
+
 	/**
 	 * Test that we get a PageRecord for an existing page by id
 	 * @covers \MediaWiki\Page\PageStore::getPageById
@@ -287,17 +369,13 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 	 * Test that we can correctly emulate the page_lang field.
 	 * @covers \MediaWiki\Page\PageStore::getPageById
 	 */
-	public function testGetPageById_emulateLanguage() {
+	public function testGetPageById_noLanguage() {
 		$existingPage = $this->getExistingTestPage();
 
-		$options = [
-			'PageLanguageUseDB' => false,
-			'LanguageCode' => 'xyz'
-		];
-		$pageStore = $this->getPageStore( $options );
+		$pageStore = $this->getPageStore();
 		$page = $pageStore->getPageById( $existingPage->getId() );
 
-		$this->assertSame( 'xyz', $page->getLanguage() );
+		$this->assertNull( $page->getLanguage() );
 	}
 
 	public function provideGetPageById_invalid() {
@@ -320,14 +398,15 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * Test that we get a PageRecord for an existing page by id
-	 * @covers \MediaWiki\Page\PageStore::getPageByIdentity
+	 *
+	 * @covers \MediaWiki\Page\PageStore::getPageByReference
 	 */
 	public function testGetPageByIdentity_existing() {
 		$existingPage = $this->getExistingTestPage();
 		$identity = $existingPage->getTitle()->toPageIdentity();
 
 		$pageStore = $this->getPageStore();
-		$page = $pageStore->getPageByIdentity( $identity );
+		$page = $pageStore->getPageByReference( $identity );
 
 		$this->assertTrue( $page->exists() );
 		$this->assertSamePage( $existingPage, $page );
@@ -335,47 +414,51 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * Test that we get null if we look up a page with ID 0
-	 * @covers \MediaWiki\Page\PageStore::getPageByIdentity
+	 *
+	 * @covers \MediaWiki\Page\PageStore::getPageByReference
 	 */
 	public function testGetPageByIdentity_knowNonexisting() {
 		$nonexistingPage = new PageIdentityValue( 0, NS_MAIN, 'Test', PageIdentity::LOCAL );
 
 		$pageStore = $this->getPageStore();
-		$page = $pageStore->getPageByIdentity( $nonexistingPage );
+		$page = $pageStore->getPageByReference( $nonexistingPage );
 
 		$this->assertNull( $page );
 	}
 
 	/**
 	 * Test that we get null if we look up a page with an ID that does not exist
-	 * @covers \MediaWiki\Page\PageStore::getPageByIdentity
+	 *
+	 * @covers \MediaWiki\Page\PageStore::getPageByReference
 	 */
 	public function testGetPageByIdentity_notFound() {
 		$nonexistingPage = new PageIdentityValue( 523478562, NS_MAIN, 'Test', PageIdentity::LOCAL );
 
 		$pageStore = $this->getPageStore();
-		$page = $pageStore->getPageByIdentity( $nonexistingPage );
+		$page = $pageStore->getPageByReference( $nonexistingPage );
 
 		$this->assertNull( $page );
 	}
 
 	/**
 	 * Test that getPageByIdentity() returns any ExistingPageRecord unchanged
-	 * @covers \MediaWiki\Page\PageStore::getPageByIdentity
+	 *
+	 * @covers \MediaWiki\Page\PageStore::getPageByReference
 	 */
 	public function testGetPageByIdentity_PageRecord() {
 		$existingPage = $this->getExistingTestPage();
 		$rec = $existingPage->toPageRecord();
 
 		$pageStore = $this->getPageStore();
-		$page = $pageStore->getPageByIdentity( $rec );
+		$page = $pageStore->getPageByReference( $rec );
 
 		$this->assertSame( $rec, $page );
 	}
 
 	/**
 	 * Test that we get a PageRecord from another wiki by id
-	 * @covers \MediaWiki\Page\PageStore::getPageByIdentity
+	 *
+	 * @covers \MediaWiki\Page\PageStore::getPageByReference
 	 */
 	public function testGetPageByIdentity_crossWiki() {
 		$wikiId = 'acme';
@@ -391,7 +474,7 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$pageStore = $this->getPageStore( [], $wikiId );
-		$page = $pageStore->getPageByIdentity( $identity );
+		$page = $pageStore->getPageByReference( $identity );
 
 		$this->assertSame( $wikiId, $page->getWikiId() );
 		$this->assertSamePage( $existingPage, $page );
@@ -419,13 +502,13 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 	 * Test that getPageByIdentity() throws InvalidArgumentException for bad IDs.
 	 *
 	 * @dataProvider provideGetPageByIdentity_invalid
-	 * @covers \MediaWiki\Page\PageStore::getPageByIdentity
+	 * @covers \MediaWiki\Page\PageStore::getPageByReference
 	 */
 	public function testGetPageByIdentity_invalid( $identity, $exception ) {
 		$pageStore = $this->getPageStore();
 
 		$this->expectException( $exception );
-		$pageStore->getPageByIdentity( $identity );
+		$pageStore->getPageByReference( $identity );
 	}
 
 	/**
@@ -500,13 +583,14 @@ class PageStoreTest extends MediaWikiIntegrationTestCase {
 		$lb = $this->createMock( LoadBalancer::class );
 		$lb->expects( $this->atLeastOnce() )
 			->method( 'getConnectionRef' )
-			->with( DB_MASTER )
-			->willReturn( new DBConnRef( $lb, $db, DB_MASTER ) );
+			->with( DB_PRIMARY )
+			->willReturn( new DBConnRef( $lb, $db, DB_PRIMARY ) );
 
 		$pageStore = new PageStore(
 			$serviceOptions,
 			$lb,
 			$services->getNamespaceInfo(),
+			$services->getTitleParser(),
 			WikiAwareEntity::LOCAL
 		);
 

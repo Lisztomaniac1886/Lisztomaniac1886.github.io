@@ -4,12 +4,15 @@ namespace MediaWiki\Page;
 
 use DBAccessObjectUtils;
 use EmptyIterator;
+use InvalidArgumentException;
 use Iterator;
+use MalformedTitleException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\DAO\WikiAwareEntity;
 use MediaWiki\Linker\LinkTarget;
 use NamespaceInfo;
 use stdClass;
+use TitleParser;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -31,6 +34,9 @@ class PageStore implements PageLookup {
 	/** @var NamespaceInfo */
 	private $namespaceInfo;
 
+	/** @var TitleParser */
+	private $titleParser;
+
 	/** @var string|false */
 	private $wikiId;
 
@@ -38,7 +44,6 @@ class PageStore implements PageLookup {
 	 * @internal for use by service wiring
 	 */
 	public const CONSTRUCTOR_OPTIONS = [
-		'LanguageCode',
 		'PageLanguageUseDB',
 	];
 
@@ -46,12 +51,14 @@ class PageStore implements PageLookup {
 	 * @param ServiceOptions $options
 	 * @param ILoadBalancer $dbLoadBalancer
 	 * @param NamespaceInfo $namespaceInfo
+	 * @param TitleParser $titleParser
 	 * @param false|string $wikiId
 	 */
 	public function __construct(
 		ServiceOptions $options,
 		ILoadBalancer $dbLoadBalancer,
 		NamespaceInfo $namespaceInfo,
+		TitleParser $titleParser,
 		$wikiId = WikiAwareEntity::LOCAL
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -59,6 +66,7 @@ class PageStore implements PageLookup {
 		$this->options = $options;
 		$this->dbLoadBalancer = $dbLoadBalancer;
 		$this->namespaceInfo = $namespaceInfo;
+		$this->titleParser = $titleParser;
 		$this->wikiId = $wikiId;
 	}
 
@@ -82,9 +90,9 @@ class PageStore implements PageLookup {
 			$ns = NS_FILE;
 		}
 
-		Assert::parameter( $ns >= 0, '$link', 'must not be virtual' );
+		Assert::parameter( $ns >= 0, '$link', 'namespace must not be virtual' );
 
-		$page = $this->getPageByName( $ns, $link->getDBkey() );
+		$page = $this->getPageByName( $ns, $link->getDBkey(), $queryFlags );
 
 		if ( !$page ) {
 			$page = new PageIdentityValue( 0, $ns, $link->getDBkey(), $this->wikiId );
@@ -118,6 +126,51 @@ class PageStore implements PageLookup {
 	}
 
 	/**
+	 * @since 1.37
+	 *
+	 * @param string $text
+	 * @param int $defaultNamespace Namespace to assume per default (usually NS_MAIN)
+	 * @param int $queryFlags
+	 *
+	 * @return ProperPageIdentity|null
+	 */
+	public function getPageByText(
+		string $text,
+		int $defaultNamespace = NS_MAIN,
+		int $queryFlags = self::READ_NORMAL
+	): ?ProperPageIdentity {
+		try {
+			$title = $this->titleParser->parseTitle( $text, $defaultNamespace );
+			return $this->getPageForLink( $title, $queryFlags );
+		} catch ( MalformedTitleException | InvalidArgumentException $e ) {
+			// Note that even some well-formed links are still invalid parameters
+			// for getPageForLink(), e.g. interwiki links or special pages.
+			return null;
+		}
+	}
+
+	/**
+	 * @since 1.37
+	 *
+	 * @param string $text
+	 * @param int $defaultNamespace Namespace to assume per default (usually NS_MAIN)
+	 * @param int $queryFlags
+	 *
+	 * @return ExistingPageRecord|null
+	 */
+	public function getExistingPageByText(
+		string $text,
+		int $defaultNamespace = NS_MAIN,
+		int $queryFlags = self::READ_NORMAL
+	): ?ExistingPageRecord {
+		$pageIdentity = $this->getPageByText( $text, $defaultNamespace, $queryFlags );
+		if ( !$pageIdentity ) {
+			return null;
+		}
+		return $this->getPageByReference( $pageIdentity, $queryFlags );
+	}
+
+	/**
 	 * @param int $pageId
 	 * @param int $queryFlags
 	 *
@@ -137,29 +190,33 @@ class PageStore implements PageLookup {
 	}
 
 	/**
-	 * @param PageIdentity $page
+	 * @param PageReference $page
 	 * @param int $queryFlags
 	 *
 	 * @return ExistingPageRecord|null The page's PageRecord, or null if the page was not found.
 	 */
-	public function getPageByIdentity(
-		PageIdentity $page,
+	public function getPageByReference(
+		PageReference $page,
 		int $queryFlags = self::READ_NORMAL
 	): ?ExistingPageRecord {
-		Assert::parameter( $page->canExist(), '$page', 'Mut be a proper page' );
-
 		$page->assertWiki( $this->wikiId );
+		Assert::parameter( $page->getNamespace() >= 0, '$page', 'namespace must not be virtual' );
 
 		if ( $page instanceof ExistingPageRecord && $queryFlags === self::READ_NORMAL ) {
 			return $page;
 		}
 
-		if ( !$page->exists() ) {
-			return null;
+		if ( $page instanceof PageIdentity ) {
+			Assert::parameter( $page->canExist(), '$page', 'Must be a proper page' );
+
+			if ( $page->exists() ) {
+				// if we have a page ID, use it
+				$id = $page->getId( $this->wikiId );
+				return $this->getPageById( $id, $queryFlags );
+			}
 		}
 
-		$id = $page->getId( $this->wikiId );
-		return $this->getPageById( $id );
+		return $this->getPageByName( $page->getNamespace(), $page->getDBkey(), $queryFlags );
 	}
 
 	/**
@@ -176,6 +233,7 @@ class PageStore implements PageLookup {
 			->conds( $conds )
 			->caller( __METHOD__ );
 
+		// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
 		return $queryBuilder->fetchPageRecord();
 	}
 
@@ -187,10 +245,6 @@ class PageStore implements PageLookup {
 	 * @return ExistingPageRecord
 	 */
 	public function newPageRecordFromRow( stdClass $row ): ExistingPageRecord {
-		if ( empty( $row->page_lang ) ) {
-			$row->page_lang = $this->options->get( 'LanguageCode' );
-		}
-
 		return new PageStoreRecord(
 			$row,
 			$this->wikiId
@@ -247,7 +301,7 @@ class PageStore implements PageLookup {
 	}
 
 	/**
-	 * @param int $mode DB_MASTER or DB_REPLICA
+	 * @param int $mode DB_PRIMARY or DB_REPLICA
 	 * @return IDatabase
 	 */
 	private function getDBConnectionRef( int $mode = DB_REPLICA ): IDatabase {

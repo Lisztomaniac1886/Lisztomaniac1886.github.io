@@ -20,8 +20,12 @@
  * @file
  */
 
+use MediaWiki\Auth\AuthManager;
 use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserGroupManager;
+use MediaWiki\User\UserNameUtils;
+use MediaWiki\User\UserOptionsLookup;
 
 /**
  * Query module to get information about a list of users
@@ -32,6 +36,21 @@ class ApiQueryUsers extends ApiQueryBase {
 	use ApiQueryBlockInfoTrait;
 
 	private $tokenFunctions, $prop;
+
+	/** @var UserNameUtils */
+	private $userNameUtils;
+
+	/** @var UserFactory */
+	private $userFactory;
+
+	/** @var UserGroupManager */
+	private $userGroupManager;
+
+	/** @var UserOptionsLookup */
+	private $userOptionsLookup;
+
+	/** @var AuthManager */
+	private $authManager;
 
 	/**
 	 * Properties whose contents does not depend on who is looking at them. If the usprops field
@@ -53,8 +72,30 @@ class ApiQueryUsers extends ApiQueryBase {
 		'cancreate',
 	];
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	/**
+	 * @param ApiQuery $query
+	 * @param string $moduleName
+	 * @param UserNameUtils $userNameUtils
+	 * @param UserFactory $userFactory
+	 * @param UserGroupManager $userGroupManager
+	 * @param UserOptionsLookup $userOptionsLookup
+	 * @param AuthManager $authManager
+	 */
+	public function __construct(
+		ApiQuery $query,
+		$moduleName,
+		UserNameUtils $userNameUtils,
+		UserFactory $userFactory,
+		UserGroupManager $userGroupManager,
+		UserOptionsLookup $userOptionsLookup,
+		AuthManager $authManager
+	) {
 		parent::__construct( $query, $moduleName, 'us' );
+		$this->userNameUtils = $userNameUtils;
+		$this->userFactory = $userFactory;
+		$this->userGroupManager = $userGroupManager;
+		$this->userOptionsLookup = $userOptionsLookup;
+		$this->authManager = $authManager;
 	}
 
 	/**
@@ -101,7 +142,7 @@ class ApiQueryUsers extends ApiQueryBase {
 		$this->requireMaxOneParameter( $params, 'userids', 'users' );
 
 		if ( $params['prop'] !== null ) {
-			$this->prop = array_flip( $params['prop'] );
+			$this->prop = array_fill_keys( $params['prop'], true );
 		} else {
 			$this->prop = [];
 		}
@@ -114,7 +155,7 @@ class ApiQueryUsers extends ApiQueryBase {
 		$result = $this->getResult();
 		// Canonicalize user names
 		foreach ( $users as $u ) {
-			$n = User::getCanonicalName( $u );
+			$n = $this->userNameUtils->getCanonical( $u );
 			if ( $n === false || $n === '' ) {
 				$vals = [ 'name' => $u, 'invalid' => true ];
 				$fit = $result->addValue( [ 'query', $this->getModuleName() ],
@@ -170,10 +211,7 @@ class ApiQueryUsers extends ApiQueryBase {
 				$this->addTables( 'user_groups' );
 				$this->addJoinConds( [ 'user_groups' => [ 'JOIN', 'ug_user=user_id' ] ] );
 				$this->addFields( [ 'user_name' ] );
-				$this->addFields( MediaWikiServices::getInstance()
-					->getUserGroupManager()
-					->getQueryInfo()['fields']
-				);
+				$this->addFields( $this->userGroupManager->getQueryInfo()['fields'] );
 				$this->addWhere( 'ug_expiry IS NULL OR ug_expiry >= ' .
 					$db->addQuotes( $db->timestamp() ) );
 				$userGroupsRes = $this->select( __METHOD__ );
@@ -187,12 +225,12 @@ class ApiQueryUsers extends ApiQueryBase {
 				// create user object and pass along $userGroups if set
 				// that reduces the number of database queries needed in User dramatically
 				if ( !isset( $userGroups ) ) {
-					$user = User::newFromRow( $row );
+					$user = $this->userFactory->newFromRow( $row );
 				} else {
 					if ( !isset( $userGroups[$row->user_name] ) || !is_array( $userGroups[$row->user_name] ) ) {
 						$userGroups[$row->user_name] = [];
 					}
-					$user = User::newFromRow( $row, [ 'user_groups' => $userGroups[$row->user_name] ] );
+					$user = $this->userFactory->newFromRow( $row, [ 'user_groups' => $userGroups[$row->user_name] ] );
 				}
 				if ( $useNames ) {
 					$key = $user->getName();
@@ -211,7 +249,7 @@ class ApiQueryUsers extends ApiQueryBase {
 				}
 
 				if ( isset( $this->prop['groups'] ) ) {
-					$data[$key]['groups'] = $user->getEffectiveGroups();
+					$data[$key]['groups'] = $this->userGroupManager->getUserEffectiveGroups( $user );
 				}
 
 				if ( isset( $this->prop['groupmemberships'] ) ) {
@@ -220,11 +258,11 @@ class ApiQueryUsers extends ApiQueryBase {
 							'group' => $ugm->getGroup(),
 							'expiry' => ApiResult::formatExpiry( $ugm->getExpiry() ),
 						];
-					}, $user->getGroupMemberships() );
+					}, $this->userGroupManager->getUserGroupMemberships( $user ) );
 				}
 
 				if ( isset( $this->prop['implicitgroups'] ) ) {
-					$data[$key]['implicitgroups'] = $user->getAutomaticGroups();
+					$data[$key]['implicitgroups'] = $this->userGroupManager->getUserImplicitGroups( $user );
 				}
 
 				if ( isset( $this->prop['rights'] ) ) {
@@ -243,7 +281,7 @@ class ApiQueryUsers extends ApiQueryBase {
 				}
 
 				if ( isset( $this->prop['gender'] ) ) {
-					$gender = $user->getOption( 'gender' );
+					$gender = $this->userOptionsLookup->getOption( $user, 'gender' );
 					if ( strval( $gender ) === '' ) {
 						$gender = 'unknown';
 					}
@@ -307,8 +345,7 @@ class ApiQueryUsers extends ApiQueryBase {
 					} else {
 						$data[$u]['missing'] = true;
 						if ( isset( $this->prop['cancreate'] ) ) {
-							$status = MediaWikiServices::getInstance()->getAuthManager()
-								->canCreateAccount( $u );
+							$status = $this->authManager->canCreateAccount( $u );
 							$data[$u]['cancreate'] = $status->isGood();
 							if ( !$status->isGood() ) {
 								$data[$u]['cancreateerror'] = $this->getErrorFormatter()->arrayFromStatus( $status );

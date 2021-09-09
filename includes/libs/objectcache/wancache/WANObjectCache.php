@@ -39,7 +39,7 @@ use Wikimedia\LightweightObjectStore\StorageAwareness;
  * should query the new value and backfill the cache using set().
  * The preferred way to do this logic is through getWithSetCallback().
  * When querying the store on cache miss, the closest DB replica
- * should be used. Try to avoid heavyweight DB master or quorum reads.
+ * should be used. Try to avoid heavyweight DB primary or quorum reads.
  *
  * To ensure consumers of the cache see new values in a timely manner,
  * you either need to follow either the validation strategy, or the
@@ -104,14 +104,18 @@ use Wikimedia\LightweightObjectStore\StorageAwareness;
  * should not be relied on for cases where reads are used to determine writes to source
  * (e.g. non-cache) data stores, except when reading immutable data.
  *
- * All values are wrapped in metadata arrays. Keys use a "WANCache:" prefix to avoid
- * collisions with keys that are not wrapped as metadata arrays. For any given key that
- * a caller uses, there are several "sister" keys that might be involved under the hood.
- * Each "sister" key differs only by a single-character:
- *   - v: used for regular value keys
- *   - i: used for temporarily storing values of tombstoned keys
- *   - t: used for storing timestamp "check" keys
- *   - m: used for temporary mutex keys to avoid cache stampedes
+ * Internally, access to a given key actually involves the use of one or more "sister" keys.
+ * A sister key is constructed by prefixing the base key with "WANCache:" (used to distinguish
+ * WANObjectCache formatted keys) and suffixing a colon followed by a single-character sister
+ * key type. The sister key types include the following:
+ *
+ * - `v`: used to store "regular" values (metadata-wrapped) and temporary purge "tombstones".
+ * - `f`: used to store copies of temporary purge "tombstones" (only with `onHostRoutingPrefix`).
+ * - `t`: used to store "last purge" timestamps for "check" keys.
+ * - `m`: used to store temporary mutex locks to avoid cache stampedes.
+ * - `i`: used to store temporary interim values (metadata-wrapped) for tombstoned keys.
+ * - `c`: used to store temporary "cool-off" indicators, which specify a period during which
+ *        values cannot be stored, neither regularly nor using interim keys.
  *
  * @ingroup Cache
  * @since 1.26
@@ -193,8 +197,6 @@ class WANObjectCache implements
 	public const GRACE_TTL_NONE = 0;
 	/** Idiom for delete()/touchCheckKey() meaning "no hold-off period" */
 	public const HOLDOFF_TTL_NONE = 0;
-	/** Alias for HOLDOFF_TTL_NONE (b/c) (deprecated since 1.34) */
-	public const HOLDOFF_NONE = self::HOLDOFF_TTL_NONE;
 
 	/** @var float Idiom for getWithSetCallback() meaning "no minimum required as-of timestamp" */
 	public const MIN_TIMESTAMP_NONE = 0.0;
@@ -276,20 +278,20 @@ class WANObjectCache implements
 	/** Key to how long it took to generate the value */
 	private const FLD_GENERATION_TIME = 6;
 
-	/** Single character value mutex key component */
+	/** Single character component for value keys */
 	private const TYPE_VALUE = 'v';
-	/** Single character timestamp key component */
+	/** Single character component for timestamp check keys */
 	private const TYPE_TIMESTAMP = 't';
-	/** Single character flux key component */
+	/** Single character component for flux keys */
 	private const TYPE_FLUX = 'f';
-	/** Single character mutex key component */
+	/** Single character component for mutex lock keys */
 	private const TYPE_MUTEX = 'm';
-	/** Single character interium key component */
+	/** Single character component for interium value keys */
 	private const TYPE_INTERIM = 'i';
-	/** Single character cool-off key component */
+	/** Single character component for cool-off bounce keys */
 	private const TYPE_COOLOFF = 'c';
 
-	/** Prefix for tombstone key values */
+	/** Value prefix of purge values */
 	private const PURGE_VAL_PREFIX = 'PURGED:';
 
 	/**
@@ -1718,6 +1720,10 @@ class WANObjectCache implements
 		// How long it took to fetch, validate, and generate the value
 		$elapsed = max( $postCallbackTime - $initialTime, 0.0 );
 
+		// How long it took to generate the value
+		$walltime = max( $postCallbackTime - $preCallbackTime, 0.0 );
+		$this->stats->timing( "wanobjectcache.$kClass.regen_walltime", 1e3 * $walltime );
+
 		// Attempt to save the newly generated value if applicable
 		if (
 			// Callback yielded a cacheable value
@@ -1727,15 +1733,12 @@ class WANObjectCache implements
 			// Key does not appear to be undergoing a set() stampede
 			$this->checkAndSetCooloff( $key, $kClass, $value, $elapsed, $hasLock )
 		) {
-			// How long it took to generate the value
-			$walltime = max( $postCallbackTime - $preCallbackTime, 0.0 );
-			$this->stats->timing( "wanobjectcache.$kClass.regen_walltime", 1e3 * $walltime );
 			// If the key is write-holed then use the (volatile) interim key as an alternative
 			if ( $isKeyTombstoned ) {
 				$this->setInterimValue( $key, $value, $lockTSE, $version, $walltime );
 			} else {
 				$finalSetOpts = [
-					// @phan-suppress-next-line PhanUselessBinaryAddRight
+					// @phan-suppress-next-line PhanUselessBinaryAddRight,PhanCoalescingAlwaysNull
 					'since' => $setOpts['since'] ?? $preCallbackTime,
 					'version' => $version,
 					'staleTTL' => $staleTTL,
@@ -1909,7 +1912,7 @@ class WANObjectCache implements
 				$this->cache->clearLastError();
 				if (
 					!$this->cache->add( $cooloffSisterKey, 1, self::COOLOFF_TTL ) &&
-					// Don't treat failures due to I/O errors as the key being in cooloff
+					// Don't treat failures due to I/O errors as the key being in cool-off
 					$this->cache->getLastError() === BagOStuff::ERR_NONE
 				) {
 					$this->stats->increment( "wanobjectcache.$kClass.cooloff_bounce" );
@@ -2472,7 +2475,7 @@ class WANObjectCache implements
 		if ( count( $ids ) !== count( $res ) ) {
 			// If makeMultiKeys() is called on a list of non-unique IDs, then the resulting
 			// ArrayIterator will have less entries due to "first appearance" de-duplication
-			$ids = array_keys( array_flip( $ids ) );
+			$ids = array_keys( array_fill_keys( $ids, true ) );
 			if ( count( $ids ) !== count( $res ) ) {
 				throw new UnexpectedValueException( "Multi-key result does not match ID list" );
 			}

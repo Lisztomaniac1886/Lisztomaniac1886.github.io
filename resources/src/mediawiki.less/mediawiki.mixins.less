@@ -16,13 +16,11 @@
 
 .horizontal-gradient( @startColor: #808080, @endColor: #fff, @startPos: 0, @endPos: 100% ) {
 	background-color: average( @startColor, @endColor );
-	background-image: -webkit-linear-gradient( left, @startColor @startPos, @endColor @endPos ); // Android 4.3
 	background-image: linear-gradient( to right, @startColor @startPos, @endColor @endPos );
 }
 
 .vertical-gradient( @startColor: #808080, @endColor: #fff, @startPos: 0, @endPos: 100% ) {
 	background-color: average( @startColor, @endColor );
-	background-image: -webkit-linear-gradient( top, @startColor @startPos, @endColor @endPos ); // Android 4.3
 	background-image: linear-gradient( to bottom, @startColor @startPos, @endColor @endPos );
 }
 
@@ -109,9 +107,9 @@
 }
 
 .column-count( @value ) {
-	-webkit-column-count: @value;
-	-moz-column-count: @value;
-	column-count: @value;
+	-webkit-column-count: @value; // Chrome 4-49, Safari 3.1-8.4, iOS 3.2-8.4
+	-moz-column-count: @value; // Firefox 2-51
+	column-count: @value; // Chrome 50+, Firefox 52+, Edge, IE 10+, Opera 11.5+, Android 90+
 }
 
 .column-width( @value ) {

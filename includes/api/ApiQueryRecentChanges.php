@@ -20,10 +20,11 @@
  * @file
  */
 
-use MediaWiki\MediaWikiServices;
 use MediaWiki\ParamValidator\TypeDef\UserDef;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Revision\SlotRoleRegistry;
 use MediaWiki\Storage\NameTableAccessException;
+use MediaWiki\Storage\NameTableStore;
 
 /**
  * A query action to enumerate the recent changes that were done to the wiki.
@@ -33,16 +34,40 @@ use MediaWiki\Storage\NameTableAccessException;
  */
 class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 
+	/** @var CommentStore */
+	private $commentStore;
+
+	/** @var NameTableStore */
+	private $changeTagDefStore;
+
+	/** @var NameTableStore */
+	private $slotRoleStore;
+
+	/** @var SlotRoleRegistry */
+	private $slotRoleRegistry;
+
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
+	 * @param CommentStore $commentStore
+	 * @param NameTableStore $changeTagDefStore
+	 * @param NameTableStore $slotRoleStore
+	 * @param SlotRoleRegistry $slotRoleRegistry
 	 */
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct(
+		ApiQuery $query,
+		$moduleName,
+		CommentStore $commentStore,
+		NameTableStore $changeTagDefStore,
+		NameTableStore $slotRoleStore,
+		SlotRoleRegistry $slotRoleRegistry
+	) {
 		parent::__construct( $query, $moduleName, 'rc' );
+		$this->commentStore = $commentStore;
+		$this->changeTagDefStore = $changeTagDefStore;
+		$this->slotRoleStore = $slotRoleStore;
+		$this->slotRoleRegistry = $slotRoleRegistry;
 	}
-
-	/** @var CommentStore */
-	private $commentStore;
 
 	private $fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_userid = false,
 		$fld_flags = false, $fld_timestamp = false, $fld_title = false, $fld_ids = false,
@@ -198,7 +223,7 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 		}
 
 		if ( $params['show'] !== null ) {
-			$show = array_flip( $params['show'] );
+			$show = array_fill_keys( $params['show'], true );
 
 			/* Check for conflicting parameters. */
 			if ( ( isset( $show['minor'] ) && isset( $show['!minor'] ) )
@@ -228,15 +253,13 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 			$this->addWhereIf( 'rc_bot = 0', isset( $show['!bot'] ) );
 			$this->addWhereIf( 'rc_bot != 0', isset( $show['bot'] ) );
 			if ( isset( $show['anon'] ) || isset( $show['!anon'] ) ) {
-				$actorMigration = ActorMigration::newMigration();
-				$actorQuery = $actorMigration->getJoin( 'rc_user' );
-				$this->addTables( $actorQuery['tables'] );
-				$this->addJoinConds( $actorQuery['joins'] );
+				$this->addTables( 'actor', 'actor' );
+				$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=rc_actor' ] ] );
 				$this->addWhereIf(
-					$actorMigration->isAnon( $actorQuery['fields']['rc_user'] ), isset( $show['anon'] )
+					'actor_user IS NULL', isset( $show['anon'] )
 				);
 				$this->addWhereIf(
-					$actorMigration->isNotAnon( $actorQuery['fields']['rc_user'] ), isset( $show['!anon'] )
+					'actor_user IS NOT NULL', isset( $show['!anon'] )
 				);
 			}
 			$this->addWhereIf( 'rc_patrolled = 0', isset( $show['!patrolled'] ) );
@@ -271,22 +294,31 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 
 		$this->requireMaxOneParameter( $params, 'user', 'excludeuser' );
 
+		if ( $params['prop'] !== null ) {
+			$prop = array_fill_keys( $params['prop'], true );
+
+			/* Set up internal members based upon params. */
+			$this->initProperties( $prop );
+		}
+
+		if ( $this->fld_user
+			|| $this->fld_userid
+			// Token needs actor_user for RecentChange::newFromRow/User::newFromAnyId (T228425)
+			|| $this->token !== null
+			|| $params['user'] !== null
+			|| $params['excludeuser'] !== null
+		) {
+			$this->addTables( 'actor', 'actor' );
+			$this->addFields( [ 'actor_name', 'actor_user', 'rc_actor' ] );
+			$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=rc_actor' ] ] );
+		}
+
 		if ( $params['user'] !== null ) {
-			// Don't query by user ID here, it might be able to use the rc_user_text index.
-			$actorQuery = ActorMigration::newMigration()
-				->getWhere( $this->getDB(), 'rc_user', $params['user'], false );
-			$this->addTables( $actorQuery['tables'] );
-			$this->addJoinConds( $actorQuery['joins'] );
-			$this->addWhere( $actorQuery['conds'] );
+			$this->addWhereFld( 'actor_name', $params['user'] );
 		}
 
 		if ( $params['excludeuser'] !== null ) {
-			// Here there's no chance to use the rc_user_text index, so allow ID to be used.
-			$actorQuery = ActorMigration::newMigration()
-				->getWhere( $this->getDB(), 'rc_user', $params['excludeuser'] );
-			$this->addTables( $actorQuery['tables'] );
-			$this->addJoinConds( $actorQuery['joins'] );
-			$this->addWhere( 'NOT(' . $actorQuery['conds'] . ')' );
+			$this->addWhere( 'actor_name<>' . $this->getDB()->addQuotes( $params['excludeuser'] ) );
 		}
 
 		/* Add the fields we're concerned with to our query. */
@@ -303,11 +335,6 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 		$showRedirects = false;
 		/* Determine what properties we need to display. */
 		if ( $params['prop'] !== null ) {
-			$prop = array_flip( $params['prop'] );
-
-			/* Set up internal members based upon params. */
-			$this->initProperties( $prop );
-
 			if ( $this->fld_patrolled && !$user->useRCPatrol() && !$user->useNPPatrol() ) {
 				$this->dieWithError( 'apierror-permissiondenied-patrolflag', 'permissiondenied' );
 			}
@@ -352,9 +379,8 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 		if ( $params['tag'] !== null ) {
 			$this->addTables( 'change_tag' );
 			$this->addJoinConds( [ 'change_tag' => [ 'JOIN', [ 'rc_id=ct_rc_id' ] ] ] );
-			$changeTagDefStore = MediaWikiServices::getInstance()->getChangeTagDefStore();
 			try {
-				$this->addWhereFld( 'ct_tag_id', $changeTagDefStore->getId( $params['tag'] ) );
+				$this->addWhereFld( 'ct_tag_id', $this->changeTagDefStore->getId( $params['tag'] ) );
 			} catch ( NameTableAccessException $exception ) {
 				// Return nothing.
 				$this->addWhere( '1=0' );
@@ -394,26 +420,15 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 		$this->token = $params['token'];
 
 		if ( $this->fld_comment || $this->fld_parsedcomment || $this->token ) {
-			$this->commentStore = CommentStore::getStore();
 			$commentQuery = $this->commentStore->getJoin( 'rc_comment' );
 			$this->addTables( $commentQuery['tables'] );
 			$this->addFields( $commentQuery['fields'] );
 			$this->addJoinConds( $commentQuery['joins'] );
 		}
 
-		if ( $this->fld_user || $this->fld_userid || $this->token !== null ) {
-			// Token needs rc_user for RecentChange::newFromRow/User::newFromAnyId (T228425)
-			$actorQuery = ActorMigration::newMigration()->getJoin( 'rc_user' );
-			$this->addTables( $actorQuery['tables'] );
-			$this->addFields( $actorQuery['fields'] );
-			$this->addJoinConds( $actorQuery['joins'] );
-		}
-
 		if ( $params['slot'] !== null ) {
 			try {
-				$slotId = MediaWikiServices::getInstance()->getSlotRoleStore()->getId(
-					$params['slot']
-				);
+				$slotId = $this->slotRoleStore->getId( $params['slot'] );
 			} catch ( \Exception $e ) {
 				$slotId = null;
 			}
@@ -570,14 +585,14 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 			}
 			if ( RevisionRecord::userCanBitfield( $row->rc_deleted, RevisionRecord::DELETED_USER, $user ) ) {
 				if ( $this->fld_user ) {
-					$vals['user'] = $row->rc_user_text;
+					$vals['user'] = $row->actor_name;
 				}
 
 				if ( $this->fld_userid ) {
-					$vals['userid'] = (int)$row->rc_user;
+					$vals['userid'] = (int)$row->actor_user;
 				}
 
-				if ( !$row->rc_user ) {
+				if ( !$row->actor_user ) {
 					$vals['anon'] = true;
 				}
 			}
@@ -708,7 +723,7 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 
 	public function getCacheMode( $params ) {
 		if ( isset( $params['show'] ) &&
-			$this->includesPatrollingFlags( array_flip( $params['show'] ) )
+			$this->includesPatrollingFlags( array_fill_keys( $params['show'], true ) )
 		) {
 			return 'private';
 		}
@@ -727,7 +742,7 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 	}
 
 	public function getAllowedParams() {
-		$slotRoles = MediaWikiServices::getInstance()->getSlotRoleRegistry()->getKnownRoles();
+		$slotRoles = $this->slotRoleRegistry->getKnownRoles();
 		sort( $slotRoles, SORT_STRING );
 
 		return [
@@ -753,12 +768,10 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 			'user' => [
 				ApiBase::PARAM_TYPE => 'user',
 				UserDef::PARAM_ALLOWED_USER_TYPES => [ 'name', 'ip', 'id', 'interwiki' ],
-				UserDef::PARAM_RETURN_OBJECT => true,
 			],
 			'excludeuser' => [
 				ApiBase::PARAM_TYPE => 'user',
 				UserDef::PARAM_ALLOWED_USER_TYPES => [ 'name', 'ip', 'id', 'interwiki' ],
-				UserDef::PARAM_RETURN_OBJECT => true,
 			],
 			'tag' => null,
 			'prop' => [

@@ -45,7 +45,7 @@ class CategoryMembershipChange {
 	private $pageTitle;
 
 	/**
-	 * @var RevisionRecord|null Latest Revision instance of the categorized page
+	 * @var RevisionRecord|null Latest revision of the categorized page
 	 */
 	private $revision;
 
@@ -63,21 +63,12 @@ class CategoryMembershipChange {
 
 	/**
 	 * @param Title $pageTitle Title instance of the categorized page
-	 * @param RevisionRecord|Revision|null $revision Latest Revision instance of the categorized page.
-	 *   Since 1.35 passing a Revision object is deprecated in favor of RevisionRecord.
+	 * @param RevisionRecord|null $revision Latest revision of the categorized page.
 	 *
 	 * @throws MWException
 	 */
-	public function __construct( Title $pageTitle, $revision = null ) {
+	public function __construct( Title $pageTitle, RevisionRecord $revision = null ) {
 		$this->pageTitle = $pageTitle;
-		if ( $revision instanceof Revision ) {
-			wfDeprecatedMsg(
-				'Passing a Revision for the $revision parameter to ' . __METHOD__ .
-				' was deprecated in MediaWiki 1.35',
-				'1.35'
-			);
-			$revision = $revision->getRevisionRecord();
-		}
 		$this->revision = $revision;
 		if ( $revision === null ) {
 			$this->timestamp = wfTimestampNow();

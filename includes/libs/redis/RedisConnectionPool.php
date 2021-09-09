@@ -80,7 +80,7 @@ class RedisConnectionPool implements LoggerAwareInterface {
 	 * @throws Exception
 	 */
 	protected function __construct( array $options, $id ) {
-		if ( !class_exists( 'Redis' ) ) {
+		if ( !class_exists( Redis::class ) ) {
 			throw new RuntimeException(
 				__CLASS__ . ' requires a Redis client library. ' .
 				'See https://www.mediawiki.org/wiki/Redis#Setup' );
@@ -97,8 +97,6 @@ class RedisConnectionPool implements LoggerAwareInterface {
 				throw new InvalidArgumentException(
 					__CLASS__ . ': configured serializer "igbinary" not available' );
 			}
-			// (T282133) Phan CI image's php-redis has lost IGBINARY support somehow
-			// @phan-suppress-next-line PhanUndeclaredConstantOfClass
 			$this->serializer = Redis::SERIALIZER_IGBINARY;
 		} elseif ( $options['serializer'] === 'none' ) {
 			$this->serializer = Redis::SERIALIZER_NONE;

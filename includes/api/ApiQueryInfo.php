@@ -20,6 +20,7 @@
  * @file
  */
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\Languages\LanguageConverterFactory;
 use MediaWiki\Linker\LinkTarget;
 use MediaWiki\ParamValidator\TypeDef\TitleDef;
 use MediaWiki\Permissions\PermissionStatus;
@@ -31,14 +32,16 @@ use MediaWiki\Permissions\PermissionStatus;
  */
 class ApiQueryInfo extends ApiQueryBase {
 
-	/** @var Language */
-	private $contentLanguage;
+	/** @var ILanguageConverter */
+	private $languageConverter;
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
 	/** @var NamespaceInfo */
 	private $namespaceInfo;
 	/** @var TitleFactory */
 	private $titleFactory;
+	/** @var TitleFormatter */
+	private $titleFormatter;
 	/** @var WatchedItemStore */
 	private $watchedItemStore;
 
@@ -54,6 +57,11 @@ class ApiQueryInfo extends ApiQueryBase {
 	 *    given page titles.
 	 */
 	private $fld_linkclasses = false;
+
+	/**
+	 * @var bool Whether to include the name of the associated page
+	 */
+	private $fld_associatedpage = false;
 
 	private $params;
 
@@ -95,7 +103,9 @@ class ApiQueryInfo extends ApiQueryBase {
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param NamespaceInfo $namespaceInfo
 	 * @param TitleFactory $titleFactory
+	 * @param TitleFormatter $titleFormatter
 	 * @param WatchedItemStore $watchedItemStore
+	 * @param LanguageConverterFactory $languageConverterFactory
 	 */
 	public function __construct(
 		ApiQuery $queryModule,
@@ -104,13 +114,16 @@ class ApiQueryInfo extends ApiQueryBase {
 		LinkBatchFactory $linkBatchFactory,
 		NamespaceInfo $namespaceInfo,
 		TitleFactory $titleFactory,
-		WatchedItemStore $watchedItemStore
+		TitleFormatter $titleFormatter,
+		WatchedItemStore $watchedItemStore,
+		LanguageConverterFactory $languageConverterFactory
 	) {
 		parent::__construct( $queryModule, $moduleName, 'in' );
-		$this->contentLanguage = $contentLanguage;
+		$this->languageConverter = $languageConverterFactory->getLanguageConverter( $contentLanguage );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->namespaceInfo = $namespaceInfo;
 		$this->titleFactory = $titleFactory;
+		$this->titleFormatter = $titleFormatter;
 		$this->watchedItemStore = $watchedItemStore;
 	}
 
@@ -331,7 +344,7 @@ class ApiQueryInfo extends ApiQueryBase {
 	public function execute() {
 		$this->params = $this->extractRequestParams();
 		if ( $this->params['prop'] !== null ) {
-			$prop = array_flip( $this->params['prop'] );
+			$prop = array_fill_keys( $this->params['prop'], true );
 			$this->fld_protection = isset( $prop['protection'] );
 			$this->fld_watched = isset( $prop['watched'] );
 			$this->fld_watchers = isset( $prop['watchers'] );
@@ -345,6 +358,7 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->fld_displaytitle = isset( $prop['displaytitle'] );
 			$this->fld_varianttitles = isset( $prop['varianttitles'] );
 			$this->fld_linkclasses = isset( $prop['linkclasses'] );
+			$this->fld_associatedpage = isset( $prop['associatedpage'] );
 		}
 
 		$pageSet = $this->getPageSet();
@@ -535,6 +549,12 @@ class ApiQueryInfo extends ApiQueryBase {
 
 		if ( $this->fld_subjectid && isset( $this->subjectids[$ns][$dbkey] ) ) {
 			$pageInfo['subjectid'] = $this->subjectids[$ns][$dbkey];
+		}
+
+		if ( $this->fld_associatedpage && $ns >= NS_MAIN ) {
+			$pageInfo['associatedpage'] = $this->titleFormatter->getPrefixedText(
+				$this->namespaceInfo->getAssociatedPage( $title )
+			);
 		}
 
 		if ( $this->fld_url ) {
@@ -881,11 +901,10 @@ class ApiQueryInfo extends ApiQueryBase {
 
 	private function getAllVariants( $text, $ns = NS_MAIN ) {
 		$result = [];
-		$contLang = $this->contentLanguage;
-		foreach ( $contLang->getVariants() as $variant ) {
-			$convertTitle = $contLang->autoConvert( $text, $variant );
+		foreach ( $this->languageConverter->getVariants() as $variant ) {
+			$convertTitle = $this->languageConverter->autoConvert( $text, $variant );
 			if ( $ns !== NS_MAIN ) {
-				$convertNs = $contLang->convertNamespace( $ns, $variant );
+				$convertNs = $this->languageConverter->convertNamespace( $ns, $variant );
 				$convertTitle = $convertNs . ':' . $convertTitle;
 			}
 			$result[$variant] = $convertTitle;
@@ -900,7 +919,7 @@ class ApiQueryInfo extends ApiQueryBase {
 	private function getWatchedInfo() {
 		$user = $this->getUser();
 
-		if ( $user->isAnon() || count( $this->everything ) == 0
+		if ( !$user->isRegistered() || count( $this->everything ) == 0
 			|| !$this->getAuthority()->isAllowed( 'viewmywatchlist' )
 		) {
 			return;
@@ -1031,6 +1050,7 @@ class ApiQueryInfo extends ApiQueryBase {
 			'protection',
 			'talkid',
 			'subjectid',
+			'associatedpage',
 			'url',
 			'preload',
 			'displaytitle',
@@ -1064,6 +1084,7 @@ class ApiQueryInfo extends ApiQueryBase {
 					'visitingwatchers', # private
 					'notificationtimestamp', # private
 					'subjectid',
+					'associatedpage',
 					'url',
 					'readable', # private
 					'preload',

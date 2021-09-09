@@ -1,9 +1,12 @@
 <?php
 
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\Block\Restriction\ActionRestriction;
 use MediaWiki\Block\Restriction\NamespaceRestriction;
 use MediaWiki\Block\Restriction\PageRestriction;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\Authority;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 
 /**
  * @group API
@@ -13,13 +16,15 @@ use MediaWiki\MediaWikiServices;
  * @covers ApiBlock
  */
 class ApiBlockTest extends ApiTestCase {
+	use MockAuthorityTrait;
+
 	protected $mUser = null;
 
-	protected function setUp() : void {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->tablesUsed = array_merge(
 			$this->tablesUsed,
-			[ 'ipblocks', 'change_tag', 'change_tag_def', 'logging' ]
+			[ 'ipblocks', 'ipblocks_restrictions', 'change_tag', 'change_tag_def', 'logging' ]
 		);
 
 		$this->mUser = $this->getMutableTestUser()->getUser();
@@ -35,14 +40,10 @@ class ApiBlockTest extends ApiTestCase {
 
 	/**
 	 * @param array $extraParams Extra API parameters to pass to doApiRequest
-	 * @param User|null $blocker User to do the blocking, null to pick arbitrarily
+	 * @param Authority|null $blocker User to do the blocking, null to pick arbitrarily
 	 * @return array result of doApiRequest
 	 */
-	private function doBlock( array $extraParams = [], User $blocker = null ) {
-		if ( $blocker === null ) {
-			$blocker = self::$users['sysop']->getUser();
-		}
-
+	private function doBlock( array $extraParams = [], Authority $blocker = null ) {
 		$tokens = $this->getTokens();
 
 		$this->assertNotNull( $this->mUser, 'Sanity check' );
@@ -66,7 +67,7 @@ class ApiBlockTest extends ApiTestCase {
 
 		$this->assertTrue( $block !== null, 'Block is valid' );
 
-		$this->assertSame( $this->mUser->getName(), (string)$block->getTarget() );
+		$this->assertSame( $this->mUser->getName(), $block->getTargetName() );
 		$this->assertSame( 'Some reason', $block->getReasonComment()->text );
 
 		return $ret;
@@ -98,7 +99,7 @@ class ApiBlockTest extends ApiTestCase {
 		$blocked = $this->getMutableTestUser( [ 'sysop' ] )->getUser();
 		$block = new DatabaseBlock( [
 			'address' => $blocked->getName(),
-			'by' => self::$users['sysop']->getUser()->getId(),
+			'by' => self::$users['sysop']->getUser(),
 			'reason' => 'Capriciousness',
 			'timestamp' => '19370101000000',
 			'expiry' => 'infinity',
@@ -132,7 +133,7 @@ class ApiBlockTest extends ApiTestCase {
 
 		$this->doBlock( [ 'tags' => 'custom tag' ] );
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$this->assertSame( 1, (int)$dbw->selectField(
 			[ 'change_tag', 'logging', 'change_tag_def' ],
 			'COUNT(*)',
@@ -161,16 +162,12 @@ class ApiBlockTest extends ApiTestCase {
 	}
 
 	public function testBlockWithHide() {
-		global $wgGroupPermissions;
-		$newPermissions = $wgGroupPermissions['sysop'];
-		$newPermissions['hideuser'] = true;
-		$this->mergeMwGlobalArrayValue( 'wgGroupPermissions',
-			[ 'sysop' => $newPermissions ] );
+		$res = $this->doBlock(
+			[ 'hidename' => '' ],
+			$this->mockRegisteredAuthorityWithPermissions( [ 'hideuser', 'writeapi', 'block' ] )
+		);
 
-		$res = $this->doBlock( [ 'hidename' => '' ] );
-
-		$dbw = wfGetDB( DB_MASTER );
-		$this->assertSame( '1', $dbw->selectField(
+		$this->assertSame( '1', $this->db->selectField(
 			'ipblocks',
 			'ipb_deleted',
 			[ 'ipb_id' => $res[0]['block']['id'] ],
@@ -195,7 +192,7 @@ class ApiBlockTest extends ApiTestCase {
 
 		$res = $this->doBlock( [ 'noemail' => '' ] );
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$this->assertSame( '1', $dbw->selectField(
 			'ipblocks',
 			'ipb_block_email',
@@ -226,7 +223,7 @@ class ApiBlockTest extends ApiTestCase {
 		MWTimestamp::setFakeTime( $fakeTime );
 		$res = $this->doBlock( [ 'expiry' => '1 day' ] );
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$expiry = $dbw->selectField(
 			'ipblocks',
 			'ipb_expiry',
@@ -253,26 +250,56 @@ class ApiBlockTest extends ApiTestCase {
 		$this->assertSame( [], $block->getRestrictions() );
 	}
 
-	public function testBlockWithRestrictions() {
+	public function testBlockWithRestrictionsPage() {
 		$title = 'Foo';
 		$page = $this->getExistingTestPage( $title );
-		$namespace = NS_TALK;
 
 		$this->doBlock( [
 			'partial' => true,
 			'pagerestrictions' => $title,
-			'namespacerestrictions' => $namespace,
 			'allowusertalk' => true,
 		] );
 
 		$block = DatabaseBlock::newFromTarget( $this->mUser->getName() );
 
 		$this->assertFalse( $block->isSitewide() );
-		$this->assertCount( 2, $block->getRestrictions() );
 		$this->assertInstanceOf( PageRestriction::class, $block->getRestrictions()[0] );
 		$this->assertEquals( $title, $block->getRestrictions()[0]->getTitle()->getText() );
-		$this->assertInstanceOf( NamespaceRestriction::class, $block->getRestrictions()[1] );
-		$this->assertEquals( $namespace, $block->getRestrictions()[1]->getValue() );
+	}
+
+	public function testBlockWithRestrictionsNamespace() {
+		$namespace = NS_TALK;
+
+		$this->doBlock( [
+			'partial' => true,
+			'namespacerestrictions' => $namespace,
+			'allowusertalk' => true,
+		] );
+
+		$block = DatabaseBlock::newFromTarget( $this->mUser->getName() );
+
+		$this->assertInstanceOf( NamespaceRestriction::class, $block->getRestrictions()[0] );
+		$this->assertEquals( $namespace, $block->getRestrictions()[0]->getValue() );
+	}
+
+	public function testBlockWithRestrictionsAction() {
+		$this->setMwGlobals( [
+			'wgEnablePartialActionBlocks' => true,
+		] );
+
+		$blockActionInfo = MediaWikiServices::getInstance()->getBlockActionInfo();
+		$action = 'upload';
+
+		$this->doBlock( [
+			'partial' => true,
+			'actionrestrictions' => $action,
+			'allowusertalk' => true,
+		] );
+
+		$block = DatabaseBlock::newFromTarget( $this->mUser->getName() );
+
+		$this->assertInstanceOf( ActionRestriction::class, $block->getRestrictions()[0] );
+		$this->assertEquals( $action, $blockActionInfo->getActionFromId( $block->getRestrictions()[0]->getValue() ) );
 	}
 
 	public function testBlockingActionWithNoToken() {
