@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="preload" as="image" href="Bates_Motel.jpg" />
   <link rel="preload" as="image" href="The_Good_Doctor.jpg" />
   <link rel="preload" as="image" href="Leonardo.jpg" />
@@ -15,42 +16,68 @@
  }
   th {border:2px solid white; width:30%;}
   .dates {font-size: 20px; margin-bottom: 10px; color:#7a7a7a}
+
+  @media only screen and (min-width: 601px) {
+  .container {width: 85%; margin-left: auto; margin-right: auto; text-align:center}
+  .left-item {float:left; border:2px solid white; width: 30%; margin-bottom: 20px;}
+  .right-item {float:right; border:2px solid white; width:30%; margin-bottom: 20px;}
+  .center-item {margin-left: auto; margin-right: auto; border:2px solid white; width: 30%; margin-bottom: 20px;}
+}
+
+  @media only screen and (max-width: 600px) {
+    .container {width: 90%; margin-left: auto; margin-right: auto; text-align:center}
+    .left-item {border:2px solid white; width: 100%; margin-bottom: 20px;}
+    .right-item {border:2px solid white; width: 100%; margin-bottom: 20px;}
+    .center-item {border:2px solid white; width: 100%; margin-bottom: 20px;}
+  }
   </style>
 <title> Freddie Highmore Movies and TV Shows </title>
 </head>
 <body bgcolor="black">
-<table style="width: 90%; margin-left: auto; margin-right: auto;  border-spacing: 20px;">
-  <tr>
-    <th style="">
-      <a href="BM/Episodes.html">
-        <img src="Bates_Motel.jpg" style="max-width: 100%" />
-        <div>Bates Motel</div>
-        <div class="dates">(2013-2017)</div>
-      </a>
-    </th>
-    <th style="">
-      <img src="Close_to_the_Enemy.jpg" style="max-width: 100%" />
-      <div>Close to the Enemy</div>
-      <div class="dates">(2016)</div>
-    </th>
-  </tr>
-  <tr>
-    <th style="">
-      <a href="TGD/Episodes.html">
+<div class="container">
+
+  <a href="BM/Episodes.html">
+  <div class="left-item">
+      <img src="Bates_Motel.jpg" style="max-width: 100%" />
+      <div>Bates Motel</div>
+      <div class="dates">(2013-2017)</div>
+  </div>
+  </a>
+
+  <a href="TGD/Episodes.html">
+  <div class="right-item">
       <img src="The_Good_Doctor.jpg" style="max-width: 100%" />
       <div>The Good Doctor</div>
       <div class="dates">(2017-present)</div>
-    </a>
-    </th>
-<th>
-  <a href="Leonardo/Episodes.html">
-  <img src="Leonardo.jpg" style="max-width: 100%" />
-  <div>Leonardo</div>
-  <div class="dates">(2021)</div>
+  </div>
+  </a>
+
+  <a href="">
+  <div class="center-item">
+    <img src="Close_to_the_Enemy.jpg" style="max-width: 100%" />
+    <div>Close to the Enemy</div>
+    <div class="dates">(2016)</div>
+  </div>
 </a>
-</th>
-  </tr>
-</table>
+
+<a href="">
+<div class="left-item">
+  <img src="Taskmaster.jpg" style="max-width: 100%" />
+  <div>Taskmaster</div>
+  <div class="dates">(2018)</div>
+</div>
+</a>
+
+  <a href="Leonardo/Episodes.html">
+  <div class="center-item">
+    <img src="Leonardo.jpg" style="max-width: 100%" />
+    <div>Leonardo</div>
+    <div class="dates">(2021)</div>
+  </div>
+</div>
+</a>
+
+</div>
   <!--<center>
     <h1> Choose a show/movie: </h1>
       <a href="BM/Episodes.html">
