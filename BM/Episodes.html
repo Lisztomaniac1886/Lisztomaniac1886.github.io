@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="preload" as="image" href="101.jpg" />
   <link rel="preload" as="image" href="102.jpg" />
   <link rel="preload" as="image" href="103.jpg" />
@@ -13,16 +14,85 @@
   <link rel="preload" as="image" href="110.jpg" />
   <link rel="shortcut icon" href="Favicon.ico">
   <style>
-  body {font-color:#7bc0d5; font-family:Beon}
-  a {text-decoration: none;}
+  body {color:white; font-size:30px;}
+  a, a:hover, a:visited, a:active {
+  color: inherit;
+  text-decoration: none;
+  }
+  @media only screen and (min-width: 600px) {
+    body {font-color:white;  background-image:url('bg.jpg'); background-repeat:no-repeat; background-attachment: fixed; background-size: cover;}
+  .season-container {text-align:center; width:90%; margin-left: auto; margin-right: auto; border:2px solid white}
+  .season {text-align:center; width:80%; margin-left: auto; margin-right: auto; border:2px solid white; background-color:#113e57; table-layout: fixed; border-spacing: 0 15px;}
+  td {}
+    .item {border:2px solid black; padding-bottom: 8px; border-bottom: 2px solid black; background-color:#729fa5; color:white; font-size:25px;}
+    .mobile {display:none}
+    .desktop {display:block}
+  }
+
+  @media only screen and (max-width: 600px) {
+    body {background-image: none}
+    .desktop {display:none;}
+    .mobile {display:block}
+    .season {text-align:center; width:95%; margin-left: auto; margin-right: auto; border:1px solid white; background-color:#113e57;}
+    }
+  .item {margin-left: auto; margin-right: auto; border:1px solid black; padding-bottom: 6px; margin-bottom: 5px; border-bottom: 1px solid black; background-color:#729fa5; color:white; font-size:25px; width:95%;}
+  }
   </style>
 <title> Bates Motel </title>
 </head>
 <body bgcolor="black">
   <center>
-    <!-- div style="margin-bottom: 25px;">
-  <span style="font-size:50px"> Choose an episode of The Good Doctor: </span>
-  </div>-->
+  <div style="font-family:Calibri">
+    <a href="../index.html">HOME</a>
+      </div>
+      <hr width="80%">
+      </center>
+      <!--Only for desktops-->
+      <div class="desktop">
+  <table class="season">
+<tr>
+  <th colspan="2" style="font-family:Beon">SEASON 1</th>
+</tr>
+<tr>
+  <td><a href="101.html"><div class="item"><img src="101.jpg" style="max-width:100%" /><div>#101 First You Dream, Then You Die</div></div></a></td>
+    <td><a href="102.html"><div class="item"><img src="102.jpg" style="max-width:100%" /><div>#102 Nice Town You Picked, Norma...</div></div></a></td>
+  </tr>
+  <tr>
+    <td><a href="103.html"><div class="item"><img src="103.jpg" style="max-width:100%" /><div>#103 What's Wrong With Norman</div></div></a></td>
+      <td><a href="104.html"><div class="item"><img src="104.jpg" style="max-width:100%" /><div>#104 Trust Me</div></div></a></td>
+    </tr>
+    <tr>
+      <td><a href="105.html"><div class="item"><img src="105.jpg" style="max-width:100%" /><div>#105 Ocean View</div></div></a></td>
+        <td><a href="106.html"><div class="item"><img src="106.jpg" style="max-width:100%" /><div>#106 The Truth</div></div></a></td>
+      </tr>
+      <tr>
+        <td><a href="107.html"><div class="item"><img src="107.jpg" style="max-width:100%" /><div>#107 The Man in Number 9</div></div></a></td>
+          <td><a href="108.html"><div class="item"><img src="108.jpg" style="max-width:100%" /><div>#108 A Boy and His Dog</div></div></a></td>
+        </tr>
+        <tr>
+          <td><a href="109.html"><div class="item"><img src="109.jpg" style="max-width:100%" /><div>#109 Underwater</div></div></a></td>
+            <td><a href="110.html"><div class="item"><img src="110.jpg" style="max-width:100%" /><div>#110 Midnight</div></div></a></td>
+          </tr>
+  </table>
+</div>
+
+<!--Only for mobiles -->
+<div class="mobile">
+  <div class="season">
+<center>SEASON 5</center>
+<a href="101.html"><div class="item"><img src="101.jpg" style="max-width:100%" /><div>#101 First You Dream, Then You Die</div></div></a>
+<a href="102.html"><div class="item"><img src="102.jpg" style="max-width:100%" /><div>#102 Nice Town You Picked, Norma...</div></div></a>
+<a href="103.html"><div class="item"><img src="103.jpg" style="max-width:100%" /><div>#103 What's Wrong With Norman</div></div></a>
+<a href="104.html"><div class="item"><img src="104.jpg" style="max-width:100%" /><div>#104 Trust Me</div></div></a>
+<a href="105.html"><div class="item"><img src="105.jpg" style="max-width:100%" /><div>#105 Ocean View</div></div></a>
+<a href="106.html"><div class="item"><img src="106.jpg" style="max-width:100%" /><div>#106 The Truth</div></div></a>
+<a href="107.html"><div class="item"><img src="107.jpg" style="max-width:100%" /><div>#107 The Man in Number 9</div></div></a>
+<a href="108.html"><div class="item"><img src="108.jpg" style="max-width:100%" /><div>#108 A Boy and His Dog</div></div></a>
+<a href="109.html"><div class="item"><img src="109.jpg" style="max-width:100%" /><div>#109 Underwater</div></div></a>
+<a href="110.html"><div class="item"><img src="110.jpg" style="max-width:100%" /><div>#110 Midnight</div></div></a>
+</div>
+  <!--
+  <center>
   <div style="width: 720px; background-color:#113e57; border:2px solid #7bc0d5;">
 <span style="color:white; font-family:Beon; font-size:40px;">SEASON 1</span>
 <hr>
@@ -99,6 +169,7 @@
     </div>
 <br>
      <a href="../index.html"><span style="color:white; font-size:50px; font-family:Calibri;">← The Main Page</span></a>
-    </center>
+   </center>
+ -->
   </body>
   </html>
