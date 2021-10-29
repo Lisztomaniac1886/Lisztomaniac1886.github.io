@@ -40,7 +40,3 @@ width:100%;
 height:60px;   /* Height of the footer */
 background:#6cf;
 }
-.fb_iframe_widget_fluid_desktop, .fb_iframe_widget_fluid_desktop span, .fb_iframe_widget_fluid_desktop iframe {
-            max-width: 100% !important;
-            width: 100% !important;
- }
