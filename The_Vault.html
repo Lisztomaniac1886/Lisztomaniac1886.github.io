@@ -3,14 +3,21 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {margin:0;}
+body {
+  margin:0;
+  color: white;
+  font-size: 25px;
+  font-family: Calibri;
+}
 
 .navbar {
   overflow: hidden;
-  background-color: black;
+  background-color: #0f1e30;
   position: fixed;
   top: 0;
   width: 100%;
+  text-align:center;
+  z-index: 1;
 }
 
 .navbar a {
@@ -24,20 +31,58 @@ body {margin:0;}
 }
 
 .navbar a:hover {
-  background: #ddd;
+  background: #0067a3;
   color: black;
 }
 
 .main {
-  background-color: white;
-  text-align:center;
+  background-color: black;
   width:75%;
+  min-height: 1000px;
   margin-left: auto;
   margin-right: auto;
   padding: 16px;
   margin-top: 30px;
+  background-image: none;
+  background-repeat:no-repeat;
+  background-size: cover;
+  border: none;
 }
-
+.infobox {
+  width: 80%;
+  border: 2px solid white;
+  margin-left: auto; margin-right: auto;
+}
+.poster {
+  float:left;
+  width: 30%;
+  padding: 16px;
+}
+p {
+margin-left: 25px;
+margin-right: 25px;
+}
+a, a:hover, a:visited, a:active {
+color: inherit;
+text-decoration: none;
+}
+.iframe  {
+position: relative;
+overflow: hidden;
+width: 80%;
+padding-top: 45%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+border:none;
+}
+.responsive-iframe {
+border: none;
+position: absolute;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+width: 100%;
+height: 100%;
+}
 @media only screen and (min-width: 600px) {
   body {font-color:white;  background-image:url('The_Vault_Bg.jpg'); background-repeat:no-repeat; background-attachment: fixed; background-size: cover;}
   .mobile {display:none}
@@ -54,36 +99,18 @@ body {margin:0;}
 <body>
 
 <div class="navbar">
-  <a href="index.html">Home</a>
-  <a href=""></a>
-  <a href=""></a>
+  <a href="index.html"><img src="home.png" width="30px"></a>
 </div>
 
 <div class="main">
-  <h1>Fixed Top Menu</h1>
-  <h2>Scroll this page to see the effect</h2>
-  <h2>The navigation bar will stay at the top of the page while scrolling</h2>
+  <center><h1>The Vault</h1></center>
+  <p><b>The Vault</b> (formerly known as <b>Way Down</b>) is a 2021 Spanish action thriller film. Learn more about this movie on <a target="_blank" href="https://en.wikipedia.org/wiki/The_Vault_(2021_film)"><u>Wikipedia</u></a>, <a target="_blank" href="https://www.imdb.com/title/tt9742794/"><u>IMDb</u></a>, and <a target="_blank" href="https://freddiehighmore.fandom.com/wiki/The_Vault"><u>Freddie Highmore Wiki</u></a>.
+    <center><div class="iframe">
+  <iframe class="responsive-iframe" src="https://drive.google.com/file/d/11fGmMMXC2t5P2rO3gYySUBfwH76-f0pw/preview" allow="autoplay" allowfullscreen="true"></iframe></div></center>
+<p>
+  Thom, a genius engineering graduate is interested in the Bank of Spain's safe. The Bank building is more than 100 years old, with no building blueprints available and a security system that includes an underground river that will flood the safe room if their walls are breached. As soon as Thom learns that a legendary lost treasure is going to be held at the bank's safe for just 10 days, he devises, together with charismatic art dealer Walter "Cunningham" a detailed plan to breaking in. They will only have 105 minutes to do so, while the Bank's staff will be distracted, watching the 2010 Football World Cup final match , played by Spain's national football team and broadcast on a giant screen, coincidentally placed just in front of the Bank of Spain building.
+</p>
 
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
-  <p>Some text some text some text some text..</p>
 </div>
 
 </body>
