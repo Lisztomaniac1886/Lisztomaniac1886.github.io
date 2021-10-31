@@ -27,7 +27,8 @@ body {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 25;
+  white-space: nowrap;
 }
 
 .navbar a:hover {
@@ -89,17 +90,26 @@ height: 100%;
   .desktop {display:block}
 }
 @media only screen and (max-width: 600px) {
-  body {font-color:white;  background-image:none;}
-  .mobile {display:none}
-  .desktop {display:block}
+  body {
+    background-image:none;}
+  .mobile {display:block}
+  .desktop {display:none}
 }
 </style>
 <title>The Vault (2021)</title>
 </head>
-<body>
+<body bgcolor="#194e54">
 
 <div class="navbar">
-  <a href="index.html"><img src="home.png" width="30px"></a>
+  <div class="desktop">
+  <a href="index.html"><img src="home.png" width="25px"></a>
+  <a href="BM/Episodes.html">Bates Motel</a>
+  <a href="TGD/Episodes.html">The Good Doctor</a>
+  <a href="Leonardo/Episodes.html">Leonardo</a>
+</div>
+<div class="mobile">
+<a href="index.html"><img src="home.png" width="25px"></a>
+</div>
 </div>
 
 <div class="main">
