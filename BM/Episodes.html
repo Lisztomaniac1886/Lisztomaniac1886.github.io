@@ -14,15 +14,54 @@
   <link rel="preload" as="image" href="110.jpg" />
   <link rel="shortcut icon" href="Favicon.ico">
   <style>
-  body {color:white; font-size:30px;}
+  body {color:white; font-family:Calibri; font-size:25px; margin:0;}
   a, a:hover, a:visited, a:active {
   color: inherit;
   text-decoration: none;
   }
+  .navbar {
+    overflow: hidden;
+    background-color: #0f1e30;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align:center;
+    z-index: 1;
+  }
+
+  .navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 25;
+    white-space: nowrap;
+  }
+
+  .navbar a:hover {
+    background: #0067a3;
+    color: black;
+  }
+
+  .main {
+    background-color: black;
+    width:80%;
+    min-height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px;
+    margin-top: 30px;
+    background-image: none;
+    background-repeat:no-repeat;
+    background-size: cover;
+    border: none;
+  }
   @media only screen and (min-width: 600px) {
     body {font-color:white;  background-image:url('bg.jpg'); background-repeat:no-repeat; background-attachment: fixed; background-size: cover;}
   .season-container {text-align:center; width:90%; margin-left: auto; margin-right: auto; border:2px solid white}
-  .season {text-align:center; width:80%; margin-left: auto; margin-right: auto; border:2px solid white; background-color:#113e57; table-layout: fixed; border-spacing: 0 15px;}
+  .season {margin-top:30px; text-align:center; width:90%; margin-left: auto; margin-right: auto; border:2px solid white; background-color:#113e57; table-layout: fixed; border-spacing: 0 15px;}
   td {}
     .item {border:2px solid black; padding-bottom: 8px; border-bottom: 2px solid black; background-color:#729fa5; color:white; font-size:25px;}
     .mobile {display:none}
@@ -41,12 +80,20 @@
 <title> Bates Motel </title>
 </head>
 <body bgcolor="black">
-  <center>
-  <div style="font-family:Calibri">
-    <a href="../index.html">HOME</a>
-      </div>
-      <hr style="width:80%">
-      </center>
+  <div class="navbar">
+    <div class="desktop">
+    <a href="../index.html"><img src="../home.png" width="25px"></a>
+    <a style="pointer-events: none; cursor: default;"><b>Bates Motel</b></a>
+    <a href="../TGD/Episodes.html">The Good Doctor</a>
+    <a href="../Leonardo/Episodes.html">Leonardo</a>
+    <a href="../CTTE/Episodes.html">Close to the Enemy</a>
+  </div>
+  <div class="mobile">
+  <a href="../index.html"><img src="../home.png" width="25px"></a>
+  </div>
+  </div>
+
+  <div class="main">
       <!--Only for desktops-->
       <div class="desktop">
   <table class="season">
@@ -91,85 +138,6 @@
 <a href="109.html"><div class="item"><img src="109.jpg" style="max-width:100%" /><div>#109 Underwater</div></div></a>
 <a href="110.html"><div class="item"><img src="110.jpg" style="max-width:100%" /><div>#110 Midnight</div></div></a>
 </div>
-  <!--
-  <center>
-  <div style="width: 720px; background-color:#113e57; border:2px solid #7bc0d5;">
-<span style="color:white; font-family:Beon; font-size:40px;">SEASON 1</span>
-<hr>
-
-<a href="https://drive.google.com/file/d/1s6VOnhljUtMwn8F--AXWpspFg-TMGmSR/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="101.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#101 First You Dream, Then You Die</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1LUzqlk_esksl-16CaHlVvoKAnjpUolLb/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="102.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#102 Nice Town You Picked, Norma... </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1clxvuVBWrL__43IGQoxHSYHV9d6eF0C3/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="103.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#103 What's Wrong With Norman </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1ziN02FL5LF_x1ktfePRnnDXlVo4jOTva/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="104.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#104 Trust Me </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1cJUMUICZbOW3tp6TVtIZn2kW8URtQR0x/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="105.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#105 Ocean View </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1M_3i2OQBQNOV2tD6hAiEX-eBjPWDUHEF/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="106.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#106 The Truth </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1W4LbLMeM0IQZ2ZCYGxHoWOKHdsGkCuOx/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="107.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#107 The Man in Number 9 </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1OdlZ1UarbR9Ce9QMoJ-4KjC_GDNCbaN1/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="108.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#108 A Boy and His Dog </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1TzdSUIjmTonBF4BBQZ9m8D_QX79FHpps/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="109.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#109 Underwater </span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1pqREsDzMI2ox747TF9TrETT4-gdGhE50/view?usp=sharing" target="_blank">
-<figure style="border: 2px solid #3a3a3a; width:600px; background-color:#7bc0d5">
-<img src="110.jpg" width="600px" />
-<figcaption><span style="font-size:40px; font-family:Calibri; color:#113e57;  text-shadow: 2px 2px white;">#110 Midnight </span></figcaption>
-</figure>
-</a>
-    </div>
-<br>
-     <a href="../index.html"><span style="color:white; font-size:50px; font-family:Calibri;">← The Main Page</span></a>
-   </center>
- -->
+</div>
   </body>
   </html>
