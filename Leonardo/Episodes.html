@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="preload" as="image" href="101.jpg" />
   <link rel="preload" as="image" href="102.jpg" />
   <link rel="preload" as="image" href="103.jpg" />
@@ -12,91 +13,138 @@
   <link rel="preload" as="image" href="Interview.jpg" />
   <link rel="shortcut icon" href="Favicon.ico">
   <style>
-  body {color:#484742; font-family:Calibri}
-  a {text-decoration: none;}
+  body {color:white; font-family:Calibri; font-size:25px; margin:0;}
+  a, a:hover, a:visited, a:active {
+  color: inherit;
+  text-decoration: none;
+  }
+  .navbar {
+    overflow: hidden;
+    background-color: #0f1e30;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align:center;
+    z-index: 1;
+  }
+
+  .navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 25;
+    white-space: nowrap;
+  }
+
+  .navbar a:hover {
+    background: #0067a3;
+    color: black;
+  }
+
+  .main {
+    background-color: #1a1a1a;
+    width:80%;
+    min-height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px;
+    margin-top: 30px;
+    background-image: none;
+    background-repeat:no-repeat;
+    background-size: cover;
+    border: none;
+  }
+  @media only screen and (min-width: 600px) {
+    body {background-image:url('bg.jpg'); background-repeat:no-repeat; background-attachment: fixed; background-size: cover;}
+      .season-container {text-align:center; width:90%; margin-left: auto; margin-right: auto; border:2px solid white}
+  .season {margin-top:30px; text-align:center; width:90%; margin-left: auto; margin-right: auto; background-color:#000000; border:2px solid #484742; table-layout: fixed}
+    .mobile {display:none}
+    .desktop {display:block}
+    .mini {text-align:center; width:67%; margin-left: auto; margin-right: auto; border:none; border-top:none; background-color:transparent; table-layout: fixed}
+  }
+
+  @media only screen and (max-width: 600px) {
+    body {background-image:none; background-color: #1a1a1a}
+    .desktop {display:none;}
+    .mobile {display:block}
+    .season {margin-top:30px; text-align:center; width:95%; margin-left: auto; margin-right: auto; border:2px solid #484742; background-color:#000000}
+    }
+
+    .item {margin-left: auto; margin-right: auto; border:2px solid #453415; padding-bottom: 6px; margin-bottom: 5px; border-bottom: 2px solid #453415; background-color:transparent; color:white; font-size:25px; width:95%;}
+  }
   </style>
 <title> Leonardo </title>
 </head>
-<body bgcolor="231c10">
-  <center>
-    <!-- div style="margin-bottom: 25px;">
-  <span style="font-size:50px"> Choose an episode of The Good Doctor: </span>
-  </div>-->
-  <div style="width: 720px; background-color:#090c0e; border:2px solid #484742;">
-<span style="color:white; font-family:Calibri; font-size:50px">SEASON 1</span>
-<hr>
+<body bgcolor="#231c10">
+  <div class="navbar">
+    <div class="desktop">
+    <a href="../index.html"><img src="../home.png" width="25px"></a>
+    <a href="../BM/Episodes.html">Bates Motel</a>
+    <a href="../TGD/Episodes.html">The Good Doctor</a>
+    <a style="pointer-events: none; cursor: default;"><b>Leonardo</b></a>
+    <a href="../CTTE/Episodes.html">Close to the Enemy</a>
+  </div>
+  <div class="mobile">
+  <a href="../index.html"><img src="../home.png" width="25px"></a>
+  </div>
+  </div>
+<div class="main">
+  <div class="desktop">
+<table class="season">
+  <tr>
+<th colspan="3">SEASON 1</th>
+</tr>
+<tr>
+<td><a href="101.html"><div class="item"><img src="101.jpg" style="max-width:100%" /><div>Episode 1</div></div></a></td>
+<td><a href="102.html"><div class="item"><img src="102.jpg" style="max-width:100%" /><div>Episode 2</div></div></a></td>
+<td><a href="103.html"><div class="item"><img src="103.jpg" style="max-width:100%" /><div>Episode 3</div></div></a></td>
+</tr>
+<tr>
+<td><a href="104.html"><div class="item"><img src="104.jpg" style="max-width:100%" /><div>Episode 4</div></div></a></td>
+<td><a href="105.html"><div class="item"><img src="105.jpg" style="max-width:100%" /><div>Episode 5</div></div></a></td>
+<td><a href="106.html"><div class="item"><img src="106.jpg" style="max-width:100%" /><div>Episode 6</div></div></a></td>
+</tr>
+<th colspan="3">
+<table class="mini">
+<tr>
+<td><a href="107.html"><div class="item"><img src="107.jpg" style="max-width:100%" /><div>Episode 7</div></div></a></td>
+<td><a href="108.html"><div class="item"><img src="108.jpg" style="max-width:100%" /><div>Episode 8</div></div></a></td>
+</tr>
+</th>
+</table>
+</table>
 
-<a href="https://drive.google.com/file/d/1qTs0ZCz0N2fZgh5FpQHlw_oFrEPOeAsp/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="101.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 1</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1s8cBUr1ynuWb5_gvOjIOwJCmkXniMAxn/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="102.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 2</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1v6Vy8FCtJ97bn67jnI6GqUHqyya0BIgL/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="103.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 3</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1RzGsSTiu8Q69pW2znJ8H1Wa6S5CKCDl5/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="104.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 4</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1QyE5kpqyAdTzXvru-nE9d8YwaBxiVuhJ/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="105.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 5</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1i49Y7uou4xqRoKW_vhTp97g-LdMNjl8i/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="106.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 6</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1OvQoAokUDf1kwdZkmbg95XxfP-eFJyQM/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="107.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 7</span></figcaption>
-</figure>
-</a>
-
-<a href="https://drive.google.com/file/d/1F9wZtxxlMgFgQQC018o3xGXJRSz2FJ_n/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="108.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Episode 8</span></figcaption>
-</figure>
-</a>
-
-    </div>
-<br>
-<div style="width: 720px; background-color:#090c0e; border:2px solid #484742;">
-<span style="color:white; font-family:Calibri; font-size:50px">FEATURETTES</span>
-<hr>
-
-<a href="https://drive.google.com/file/d/1bqBir1KgEJl-TzuKg4B0lKDzEvWJ8kM6/view?usp=sharing" target="_blank">
-<figure style="border: 1px solid white; width:600px; background-color:black">
-<img src="Interview.jpg" width="600px" />
-<figcaption><span style="font-size:50px; color:white;">Interview with Cast and Crew</span></figcaption>
-</figure>
-</a>
+<table class="season">
+  <tr>
+<th colspan="3">FEATURETTES</th>
+</tr>
+<tr>
+  <td></td>
+<td><a href="100.html"><div class="item"><img src="interview.jpg" style="max-width:100%" /><div>Interview with Cast and Crew</div></div></a></td>
+<td></td>
+</table>
 </div>
-<br>
-     <a href="../index.html"><span style="color:white; font-size:50px">← The Main Page</span></a>
+<div class="mobile">
+  <div class="season">
+  <center>SEASON 1</center>
+  <a href="101.html"><div class="item"><img src="101.jpg" style="max-width:100%" /><div>Episode 1</div></div></a>
+  <a href="102.html"><div class="item"><img src="102.jpg" style="max-width:100%" /><div>Episode 2</div></div></a>
+  <a href="103.html"><div class="item"><img src="103.jpg" style="max-width:100%" /><div>Episode 3</div></div></a>
+  <a href="104.html"><div class="item"><img src="104.jpg" style="max-width:100%" /><div>Episode 4</div></div></a>
+  <a href="105.html"><div class="item"><img src="105.jpg" style="max-width:100%" /><div>Episode 5</div></div></a>
+  <a href="106.html"><div class="item"><img src="106.jpg" style="max-width:100%" /><div>Episode 6</div></div></a>
+  <a href="107.html"><div class="item"><img src="107.jpg" style="max-width:100%" /><div>Episode 7</div></div></a>
+  <a href="108.html"><div class="item"><img src="108.jpg" style="max-width:100%" /><div>Episode 8</div></div></a>
+</div>
+    <div class="season">
+      <center> FEATURETTES </center>
+  <a href="100.html"><div class="item"><img src="interview.jpg" style="max-width:100%" /><div>Interview with Cast and Crew</div></div></a>
+  </div>
     </center>
+  </div>
+</div>
   </body>
   </html>
