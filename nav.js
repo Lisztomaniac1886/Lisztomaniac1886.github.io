@@ -2,7 +2,7 @@ document.write( '<div class=\"navbar\">\n' );
 document.write( '  <div class=\"desktop\">\n' );
 document.write( '  <a href=\"../index.html\"><img src=\"../home.png\" width=\"25px\"></a>\n' );
 document.write( '  <a href=\"../BM/Episodes.html\">Bates Motel</a>\n' );
-document.write( '  <a href=\"Episodes.html\">The Good Doctor</a>\n' );
+document.write( '  <a href=\"../TGD/Episodes.html\">The Good Doctor</a>\n' );
 document.write( '  <a href=\"../Leonardo/Episodes.html\">Leonardo</a>\n' );
 document.write( '  <a href=\"../CTTE/Episodes.html\">Close to the Enemy</a>\n' );
 document.write( '</div>\n' );
