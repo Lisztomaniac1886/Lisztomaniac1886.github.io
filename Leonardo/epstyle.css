@@ -9,7 +9,19 @@ body {font-size:25px; font-family:Calibri; color:white; background-image:url('bg
 .previous {float:left; color: white;  text-align:center;}
 .next {float:right; color: white; text-align:center;}
 .nomob {display: block;}
-.main {width:80%; background-color:#729fa5;  margin-left: auto; margin-right: auto; font-family:helvetica,arial,sans-serif; margin-top: 40px;}
+.main {
+  background-color: black;
+  width:80%;
+  min-height: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+  margin-top: 30px;
+  background-image: none;
+  background-repeat:no-repeat;
+  background-size: cover;
+  border: none;
+}
 .mobile {display:none}
 .desktop {display:block}
 .header {width:100%; border: none; text-align: center;  margin-left: auto; margin-right: auto; font-size:50px; padding-top: 20px}
@@ -20,7 +32,7 @@ margin-right: 25px;
 }
 @media only screen and (max-width: 600px) {
 body {font-size:20px; font-family:Calibri; color:white; margin:0; background-image: none;}
-.main {width:100%; background-color:#729fa5;  margin-left: auto; margin-right: auto; font-family:helvetica,arial,sans-serif; box-sizing: border-box; margin-top: 35px;}
+.main {width:100%; background-color:black;  margin-left: auto; margin-right: auto; font-family:helvetica,arial,sans-serif; box-sizing: border-box; margin-top: 35px;}
 .nomob {display: none;}
 .previous {float:left; color: white;  font-size:20px; width:30%}
 .next {float:right; color: white; font-size:20px; width:30%}
