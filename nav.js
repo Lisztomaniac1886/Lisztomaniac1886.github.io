@@ -8,6 +8,6 @@ document.write( '  <a href=\"../CTTE/Episodes.html\">Close to the Enemy</a>\n' )
 document.write( '</div>\n' );
 document.write( '<div class=\"mobile\">\n' );
 document.write( '<a href=\"../index.html\"><img src=\"../home.png\" width=\"25px\"></a>\n' );
-document.write( '<a href=\"Episodes.html\">EPISODES</a>' );
+document.write( '<a href=\"Episodes.html\">Episodes</a>' );
 document.write( '</div>\n' );
 document.write( '</div>' );
