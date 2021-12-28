@@ -1,0 +1,192 @@
+/* Global */
+body, td { font-family:Arial, Verdana; font-size:12px; color:#00406b; }
+body { margin:0px; background:url('images/bg.jpg') repeat-x top center #8ebcdd; }
+a { color:#00406b; }
+
+#window { margin:0px auto 0px auto; width:1355px; height:814px; background:url('images/window_bg.jpg'); }
+
+#main-panel { float:left; width:1000px; height:767px; }
+#main-panel div.title1 { margin:13px 0px 0px 176px; height:56px; font-family:'reklame_script_regular_demoRg'; font-size:56px; }
+#main-panel div.title1 a { text-decoration:none; }
+#main-panel div.title2 { margin:0px 0px 0px 179px; height:28px; font-family:'Open Sans Condensed', sans-serif; font-size:28px; font-weight:300; letter-spacing:0.5px; }
+
+#content-panel div.title { height:54px; color:#ffffff; font-family:'reklame_script_regular_demoRg'; font-size:38px;  }
+#content-panel div.content .summary { text-align:center; font-family:'Open Sans Condensed', sans-serif; font-size:30px; font-weight:300; line-height:34px; }
+#content-panel div.content .summary a { font-weight:700; }
+#content-panel div.content .summary a:hover { color:#f31212; }
+
+#nav-panel { float:left; width:355px; height:767px;  }
+#nav-panel div.title { margin-top:12px; font-family:'reklame_script_regular_demoRg'; font-size:37px; }
+#nav-panel div.title a { text-decoration:none; }
+#nav-panel #nav { margin-left:2px; width:228px; border-top:1px solid #00406b; }
+#nav-panel #nav div.item { border-bottom:1px solid #00406b; padding:1px 0px 4px 8px; font-family:'Open Sans Condensed', sans-serif; font-size:17px; font-weight:300; line-height:17px; }
+#nav-panel #nav div.item a { text-decoration:none; color:#00406b; }
+#nav-panel #nav div.item:hover { background:url('images/main_nav_bg.png') repeat-y;  }
+#nav-panel #nav div.item:hover a { text-decoration:none; color:#ffffff; }
+
+#footer { clear:left; padding-left:178px; font-size:11px; color:#ffffff; }
+#footer a { color:#ffffff; }
+
+@font-face {
+    font-family: 'reklame_script_regular_demoRg';
+    src: url('files/reklamescript-regulardemo-webfont.eot');
+    src: url('files/reklamescript-regulardemo-webfont.eot#iefix') format('embedded-opentype'),
+         url('files/reklamescript-regulardemo-webfont.woff') format('woff'),
+         url('files/reklamescript-regulardemo-webfont.ttf') format('truetype'),
+         url('files/reklamescript-regulardemo-webfont.svg#reklame_script_regular_demoRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Open Sans Condensed';
+    src: url('files/OpenSansCondensed-Light.ttf') format('truetype'),
+         url('files/OpenSansCondensed-Bold.ttf')  format('truetype'),
+         url('files/OpenSansCondensed-LightItalic.ttf')  format('truetype');
+}
+
+/* Home Page */
+#site-home #content-panel { margin:72px 0px 0px 280px; width:700px; height:240px; background:url('images/index_content_panel_bg.png'); }
+#site-home #content-panel div.title { padding:22px 0px 0px 42px; }
+#site-home #content-panel div.content { padding:17px 0px 0px 0px; }
+
+/* About Us Page */
+#site-about #content-panel { margin:85px 0px 0px 305px; width:649px; height:398px; background:url('images/about_content_panel_bg.png'); }
+#site-about #content-panel div.title { padding:9px 0px 0px 18px; }
+#site-about #content-panel div.content { padding:4px 15px 0px 15px; }
+#site-about #page-picture { padding:28px 0px 0px 0px; }
+#site-about #page-description { padding:28px 10px 0px 15px; }
+#site-about #page-description-title { font-family:'reklame_script_regular_demoRg'; font-size:30px; }
+#page-about #page-description-body { margin-top:2px; line-height:18px; }
+
+/* Contact Us */
+#site-contact #content-panel { margin:70px 0px 0px 287px; width:700px; height:344px; background:url(images/content_panel_bg.png); }
+#site-contact #content-panel div.title { padding:24px 0px 0px 36px; }
+#site-contact #content-panel div.content { padding:17px 33px 0px 19px; }
+#site-contact #page-email-collector body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+#site-contact #page-email-collector table{border-collapse:collapse;border-spacing:0;}
+#site-contact #page-email-collector fieldset,img{border:0;}
+#site-contact #page-email-collector address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+#site-contact #page-email-collector li{list-style:none;}
+#site-contact #page-email-collector h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+#site-contact #page-email-collector p {font-size:100%;font-weight:normal;}
+#site-contact #page-email-collector input,textarea, select{font-family:"sans-serif",arial,helvetica;font-size:inherit;font-weight:inherit;}
+#site-contact #page-email-collector input::-moz-focus-inner { border: 0; }
+#site-contact #page-email-collector strong {font-weight: bold;}
+#site-contact #page-email-collector div.initialEmailReg form table { margin:22px auto 0px auto; }
+#site-contact #page-email-collector div.initialEmailReg form div.emailAddressLabel { margin:0px 20px 0px 0px; text-align:right; font-size:18px; color:#000000; font-weight:bold; }
+#site-contact #page-email-collector div.initialEmailReg form div.emailAddressField { margin:0px auto 0px auto; width:322px; }
+#site-contact #page-email-collector div.initialEmailReg form div.emailAddressField input { width:314px; height:23px; border:2px solid #000000; background-color:#f6f2c7; padding:2px 4px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; }
+#site-contact #page-email-collector div.initialEmailReg form div.zipCodeLabel { margin:10px 20px 0px 0px; text-align:right; font-size:18px; color:#000000; font-weight:bold; }
+#site-contact #page-email-collector div.initialEmailReg form div.zipCodeField { margin:19px auto 10px auto; width:322px; }
+#site-contact #page-email-collector div.initialEmailReg form div.zipCodeField input { width:314px; height:23px; border:2px solid #000000; background-color:#f6f2c7; padding:2px 4px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; }
+#site-contact #page-email-collector div.initialEmailReg form div.emailSubmitButton { float:right; margin-top:9px; }
+#site-contact #page-email-collector div.postEmailReg p { margin:20px 40px 0px 40px; text-align:center; color:#000000; font-size:16px; line-height:26px; }
+#site-contact #page-email-collector div.postEmailErr p { margin:20px 40px 0px 40px; text-align:center; color:#000000; font-size:16px; line-height:26px; }
+
+/* Directions */
+#site-directions #content-panel { margin:72px 0px 0px 159px; width:828px; height:605px; background:url(images/directions_content_panel_bg.png); }
+#site-directions #content-panel div.title { padding:28px 0px 0px 45px; }
+#site-directions #content-panel div.content { padding:6px 44px 0px 44px; }
+#site-directions #page-map-panel { padding:0px 0px 10px 0px; }
+#site-directions #page-directions-panel { padding:0px 10px 19px 15px; }
+#site-directions #page-directions-title { font-family:'reklame_script_regular_demoRg'; font-size:30px; }
+#site-directions #page-directions-address { font-family:'reklame_script_regular_demoRg'; font-size:22px; line-height:21px; letter-spacing:2px; }
+#site-directions #page-directions-description { padding:15px 0px 5px 0px; font-size:16px; }
+#site-directions div.page-directions-heading { padding-top:11px; font-family:'Open Sans Condensed'; font-size:17px; font-weight:bold; }
+#site-directions div.page-directions-directions { padding-top:5px; line-height:16px; }
+
+#site-directions #page-noticebox { position:absolute; top:10px; left:200px; width:921px; height:738px; background:url(images/noticebox_bg.png); display:none; }
+#site-directions #page-noticebox p { margin:14px 0px 0px 0px; }
+#site-directions #page-noticebox p.emphasized { margin:13px 0px 0px 0px; font-size:18px; font-weight:bold; color:#f00909; }
+#site-directions #page-noticebox p.emphasized2 { margin:25px 0px 0px 0px; text-align:center; font-size:18px; font-weight:bold; color:#f00909; }
+#site-directions #page-noticebox-map-panel { padding:194px 0px 0px 36px; }
+#site-directions #page-noticebox-map-caption { margin-top:13px; font-size:40px; font-weight:bold; text-align:center; color:#fc0000; line-height:46px; }
+#site-directions #page-noticebox-content-panel { vertical-align:top; padding:190px 40px 0px 10px; color:#000000; }
+#site-directions #page-noticebox-intro { font-size:18px; font-weight:bold; line-height:23px; }
+#site-directions #page-noticebox-socialmedia-panel table { margin:10px auto 0px auto; width:400px; }
+#site-directions #page-noticebox-socialmedia-panel table td { text-align:center; color:#000000; }
+#site-directions #page-noticebox-socialmedia-panel table td div.line { margin:0px auto 0px auto; width:1px; height:15px; background-color:#cccccc; }
+#site-directions #page-noticebox-socialmedia-panel table td div.or { padding:2px 0px 2px 0px; text-align:center; font-size:18px; font-weight:bold; color:#000000; }
+#site-directions #page-noticebox-getcode-button { margin-top:8px; }
+#site-directions #page-noticebox-fblike-button { margin-top:8px; }
+#site-directions #page-noticebox-signature { margin-top:8px; }
+#site-directions #page-noticebox-closelink { padding:5px 0px 0px 0px; text-align:right; font-size:16px;  }
+
+#site-directions #page-copycodebox { position:absolute; top:317px; left:307px; width:700px; height:373px; background:url(images/copycodebox_bg.png); display:none; }
+#site-directions #page-copycodebox-title { padding:24px 0px 0px 0px; text-align:center; font-family:'Open Sans Condensed'; font-size:31px; font-weight:bold; }
+#site-directions #page-copycodebox-instructions { margin:2px auto 0px auto; width:500px; text-align:center; font-size:13px; color:#000000; line-height:19px; }
+#site-directions #page-copycodebox-banner-panel { padding:26px 0px 0px 59px; }
+#site-directions #page-copycodebox-embedcode-panel { vertical-align:top; padding:20px 0px 0px 27px; }
+#site-directions #page-copycodebox-embedcode-panel p { font-size:18px; font-weight:bold; color:#303030; }
+#site-directions #page-copycodebox-embedcode { margin-top:13px; }
+#site-directions #page-copycodebox-embedcode textarea { width:325px; height:116px; border:2px solid #000000; background:#f6f2c7; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; }
+#site-directions #page-copycodebox-closelink { width:354px; padding:18px 0px 0px 0px; text-align:right; font-size:16px;  }
+
+/* Reservations */
+#site-reservations #content-panel { margin:72px 0px 0px 280px; width:700px; height:347px; background:url(images/content_panel_bg.png); }
+#site-reservations #content-panel div.title { padding:22px 0px 0px 43px; }
+#site-reservations #content-panel div.content { padding:10px 15px 0px 15px; }
+#site-reservations #page-getglue-link { margin:15px auto 0px auto; width:250px; }
+
+/* Rooms */
+#site-rooms #content-panel { margin:72px 0px 0px 280px; width:700px; height:456px; background:url(images/rooms_content_panel_bg.png); }
+#site-rooms #content-panel div.title { padding:22px 0px 0px 43px; }
+#site-rooms #content-panel div.content { padding:22px 15px 0px 15px; }
+#site-rooms #page-pinterest-link { margin:28px auto 0px auto; width:169px; }
+
+/* Gift Shop */
+#site-gifts #content-panel { margin:72px 0px 0px 145px; width:845px; height:596px; background:url(images/content_panel_bg.png); position: relative;}
+#site-gifts #content-panel div.title { padding:27px 0px 0px 55px; }
+#site-gifts #content-panel div.content { padding:22px 15px 0px 15px;}
+#site-gifts #content-panel div.content a {position: absolute; right: 55px; bottom: 80px;}
+
+/* Attractions */
+#site-attractions #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url(images/content_panel_bg.png); }
+#site-attractions #content-panel div.title { padding:9px 0px 0px 20px; }
+#site-attractions #content-panel div.content { padding:6px 18px 0px 18px; }
+#site-attractions #page-attractions-scrollbox { height:464px; overflow:auto; }
+#site-attractions td.page-image-panel { vertical-align:top; padding:0px 0px 6px 0px; }
+#site-attractions td.page-description-panel { padding:3px 12px 6px 12px; }
+#site-attractions div.page-description-title { font-family:'reklame_script_regular_demoRg'; font-size:30px; }
+#site-attractions div.page-description-heading { margin-top:1px; font-family:'Open Sans Condensed'; font-size:20px; }
+#site-attractions div.page-description-body { margin-top:4px; line-height:18px; }
+
+/* Photos */
+/*
+#site-photos #content-panel { margin:72px 0px 0px 280px; width:700px; height:240px; background:url(images/content_panel_bg.png); }
+#site-photos #content-panel div.title { padding:22px 0px 0px 42px; }
+#site-photos #content-panel div.content { padding:30px 0px 0px 0px; }
+*/
+#site-photos #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url(images/content_panel_bg.png); }
+#site-photos #content-panel div.title { padding:9px 0px 0px 20px; }
+#site-photos #content-panel div.content { padding:11px 0px 0px 18px; }
+#site-photos #page-title { font-family:'reklame_script_regular_demoRg'; font-size:30px; }
+#site-photos #page-mainimage-panel { vertical-align:top; padding:8px 15px 0px 0px; }
+#site-photos #page-mainimage-image { width:386px; height:284px; }
+#site-photos #page-mainimage-caption { margin-top:7px; width:386px; line-height:18px; }
+#site-photos #page-thumbnails-panel { vertical-align:top; padding:10px 0px 0px 0px; }
+#site-photos #page-thumbnails-scrollbox { width:339px; height:417px; border:1px solid #d8d8d8; background-color:#ffffff; overflow:auto; }
+#site-photos td.page-thumbnail { padding:8px 0px 0px 10px;  }
+#site-photos td.page-thumbnail img { width:146px; height:108px;  }
+
+/*
+     FILE ARCHIVED ON 08:52:45 Jan 01, 2015 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 13:01:13 Dec 28, 2021.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 159.976
+  exclusion.robots: 0.083
+  exclusion.robots.policy: 0.077
+  RedisCDXSource: 0.798
+  esindex: 0.008
+  LoadShardBlock: 141.664 (3)
+  PetaboxLoader3.datanode: 85.365 (4)
+  CDXLines.iter: 15.165 (3)
+  load_resource: 77.728
+  PetaboxLoader3.resolve: 44.149
+*/
