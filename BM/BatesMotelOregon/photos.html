@@ -1,0 +1,107 @@
+<html>
+<head>
+<link rel="stylesheet" href="site.css">
+<link rel="shortcut icon" href="favicon.ico">
+  <title>
+    Bates Motel
+  </title>
+</head>
+<body>
+  <div id="window">
+    <div id="main-panel">
+    <div class="title1"><a href="index.html">Welcome to the Bates Motel</a></div>
+    <div class="title2">Discover beautiful scenery. Community. Home. Hope.</div>
+
+    <script>
+    var photo_urls = new Array();
+    var photo_captions = new Array();
+
+    photo_urls[0] = "images/1-waves-far.jpg";
+    photo_captions[0] = "The soothing sounds of the sea will give you some much-needed calm as you relax in White Pine Bay.";
+    photo_urls[1] = "images/2-waves.jpg";
+    photo_captions[1] = "It's too cold to swim in, but it's nice to look at!";
+    photo_urls[2] = "images/3-waves-and-road.jpg";
+    photo_captions[2] = "White Pine Bay is full of things to see. You never know what you'll find around the next bend.";
+    photo_urls[3] = "images/4-white-pine-bay-town.jpg";
+    photo_captions[3] = "The town of White Pine Bay! Just like its people, there's so much more than meets the eye.";
+    photo_urls[4] = "images/5-a-quiet-spot-to-talk.jpg";
+    photo_captions[4] = "There are plenty of quiet spots if you need a private moment to think or talk or just enjoy the view.";
+    photo_urls[5] = "images/6-ladyface-mountain-far.jpg";
+    photo_captions[5] = "Local landmark Ladyface Mountain towers over hikers.";
+    photo_urls[6] = "images/7-secret-fishing-spot.jpg";
+    photo_captions[6] = "Bordered by the Bay on one side and lush forest on the other, you'll feel like you've walked out of your life and into a whole new world.";
+    photo_urls[7] = "images/8-the-docks.jpg";
+    photo_captions[7] = "During the day it's a bustling scene, but the docks after dark take on a mysterious vibe.";
+
+    function page_photo_select(index)
+    {
+    	document.getElementById("page-mainimage-image").src = photo_urls[index];
+    	document.getElementById("page-mainimage-caption").innerHTML = photo_captions[index];
+    }
+    </script>
+
+    <div id="site-photos">
+
+    <div id="content-panel">
+    <div class="title">Photos</div>
+    <div class="content">
+        <table border="0" cellspacing="0" cellpadding="0" style="width:740px;">
+        <tbody><tr>
+        <td><div id="page-title">Scenic Photos</div></td>
+        <td style="text-align:right; font-weight:bold;"><a href="family2.html">Go to Family Photos</a></td>
+        </tr>
+        </tbody></table>
+        <table border="0" cellspacing="0" cellpadding="0">
+        <tbody><tr>
+        <td id="page-mainimage-panel">
+            <div><img src="images/1-waves-far.jpg" id="page-mainimage-image"></div>
+            <div id="page-mainimage-caption">The soothing sounds of the sea will give you some much-needed calm as you relax in White Pine Bay.</div>
+            </td>
+        <td id="page-thumbnails-panel">
+            <div id="page-thumbnails-scrollbox">
+            <table border="0" cellspacing="0" cellpadding="0">
+            <tbody><tr valign="top">
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(0)"><img src="images/1-waves-far.jpg"></a></td>
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(1)"><img src="images/2-waves.jpg"></a></td>
+            </tr>
+            <tr valign="top">
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(2)"><img src="images/3-waves-and-road.jpg"></a></td>
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(3)"><img src="images/4-white-pine-bay-town.jpg"></a></td>
+            </tr>
+            <tr valign="top">
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(4)"><img src="images/5-a-quiet-spot-to-talk.jpg"></a></td>
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(5)"><img src="images/6-ladyface-mountain-far.jpg"></a></td>
+            </tr>
+            <tr valign="top">
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(6)"><img src="images/7-secret-fishing-spot.jpg"></a></td>
+            <td class="page-thumbnail"><a href="javascript:page_photo_select(7)"><img src="images/8-the-docks.jpg"></a></td>
+            </tr>
+            </tbody></table>
+            </div>
+            </td>
+        </tr>
+        </tbody></table>
+    </div>
+    </div>
+
+    </div>
+    </div>
+  <div id="nav-panel">
+  <div class="title"><a href="index.html">Bates Motel</a></div>
+  <div id="nav">
+      <div class="item"><a href="rooms.html">Rooms &amp; Rates</a></div>
+      <div class="item"><a href="directions.html">Directions</a></div>
+      <div class="item"><a href="reservations.html">Reservations &amp; Bookings</a></div>
+      <div class="item"><a href="photos.html">Photos</a></div>
+      <div class="item"><a href="attractions.html">Attractions</a></div>
+      <div class="item"><a href="about.html">About</a></div>
+      <div class="item"><a href="contact.html">Contact Us</a></div>
+
+  </div>
+  </div>
+
+  <div id="footer"><a href="https://www.aenetworks.com/terms" target="_blank">Terms of Use</a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; <a href="https://www.aenetworks.com/privacy" target="_blank">Privacy Policy</a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; <a href="https://www.aenetworks.com/copyright" target="_blank">Copyright Policy</a></div>
+
+  </div>
+</body>
+</html>

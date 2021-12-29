@@ -123,7 +123,7 @@ a { color:#00406b; }
 #site-directions #page-copycodebox-closelink { width:354px; padding:18px 0px 0px 0px; text-align:right; font-size:16px;  }
 
 /* Reservations */
-#site-reservations #content-panel { margin:72px 0px 0px 280px; width:700px; height:347px; background:url(images/content_panel_bg.png); }
+#site-reservations #content-panel { margin:72px 0px 0px 280px; width:700px; height:347px; background:url(images/reservations_content_panel_bg.png); }
 #site-reservations #content-panel div.title { padding:22px 0px 0px 43px; }
 #site-reservations #content-panel div.content { padding:10px 15px 0px 15px; }
 #site-reservations #page-getglue-link { margin:15px auto 0px auto; width:250px; }
@@ -157,7 +157,7 @@ a { color:#00406b; }
 #site-photos #content-panel div.title { padding:22px 0px 0px 42px; }
 #site-photos #content-panel div.content { padding:30px 0px 0px 0px; }
 */
-#site-photos #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url(images/content_panel_bg.png); }
+#site-photos #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url(images/photos_content_panel_bg.png); }
 #site-photos #content-panel div.title { padding:9px 0px 0px 20px; }
 #site-photos #content-panel div.content { padding:11px 0px 0px 18px; }
 #site-photos #page-title { font-family:'reklame_script_regular_demoRg'; font-size:30px; }
