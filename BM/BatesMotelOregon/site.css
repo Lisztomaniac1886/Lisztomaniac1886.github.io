@@ -59,7 +59,7 @@ a { color:#00406b; }
 #page-about #page-description-body { margin-top:2px; line-height:18px; }
 
 /* Contact Us */
-#site-contact #content-panel { margin:70px 0px 0px 287px; width:700px; height:344px; background:url(images/content_panel_bg.png); }
+#site-contact #content-panel { margin:70px 0px 0px 287px; width:700px; height:344px; background:url('images/content_panel_bg.png'); }
 #site-contact #content-panel div.title { padding:24px 0px 0px 36px; }
 #site-contact #content-panel div.content { padding:17px 33px 0px 19px; }
 #site-contact #page-email-collector body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
@@ -84,7 +84,7 @@ a { color:#00406b; }
 #site-contact #page-email-collector div.postEmailErr p { margin:20px 40px 0px 40px; text-align:center; color:#000000; font-size:16px; line-height:26px; }
 
 /* Directions */
-#site-directions #content-panel { margin:72px 0px 0px 159px; width:828px; height:605px; background:url(images/directions_content_panel_bg.png); }
+#site-directions #content-panel { margin:72px 0px 0px 159px; width:828px; height:605px; background:url('images/directions_content_panel_bg.png'); }
 #site-directions #content-panel div.title { padding:28px 0px 0px 45px; }
 #site-directions #content-panel div.content { padding:6px 44px 0px 44px; }
 #site-directions #page-map-panel { padding:0px 0px 10px 0px; }
@@ -95,7 +95,7 @@ a { color:#00406b; }
 #site-directions div.page-directions-heading { padding-top:11px; font-family:'Open Sans Condensed'; font-size:17px; font-weight:bold; }
 #site-directions div.page-directions-directions { padding-top:5px; line-height:16px; }
 
-#site-directions #page-noticebox { position:absolute; top:10px; left:200px; width:921px; height:738px; background:url(images/noticebox_bg.png); display:none; }
+#site-directions #page-noticebox { position:absolute; top:10px; left:200px; width:921px; height:738px; background:url('images/noticebox_bg.png'); display:none; }
 #site-directions #page-noticebox p { margin:14px 0px 0px 0px; }
 #site-directions #page-noticebox p.emphasized { margin:13px 0px 0px 0px; font-size:18px; font-weight:bold; color:#f00909; }
 #site-directions #page-noticebox p.emphasized2 { margin:25px 0px 0px 0px; text-align:center; font-size:18px; font-weight:bold; color:#f00909; }
@@ -112,7 +112,7 @@ a { color:#00406b; }
 #site-directions #page-noticebox-signature { margin-top:8px; }
 #site-directions #page-noticebox-closelink { padding:5px 0px 0px 0px; text-align:right; font-size:16px;  }
 
-#site-directions #page-copycodebox { position:absolute; top:317px; left:307px; width:700px; height:373px; background:url(images/copycodebox_bg.png); display:none; }
+#site-directions #page-copycodebox { position:absolute; top:317px; left:307px; width:700px; height:373px; background:url('images/copycodebox_bg.png'); display:none; }
 #site-directions #page-copycodebox-title { padding:24px 0px 0px 0px; text-align:center; font-family:'Open Sans Condensed'; font-size:31px; font-weight:bold; }
 #site-directions #page-copycodebox-instructions { margin:2px auto 0px auto; width:500px; text-align:center; font-size:13px; color:#000000; line-height:19px; }
 #site-directions #page-copycodebox-banner-panel { padding:26px 0px 0px 59px; }
@@ -123,25 +123,25 @@ a { color:#00406b; }
 #site-directions #page-copycodebox-closelink { width:354px; padding:18px 0px 0px 0px; text-align:right; font-size:16px;  }
 
 /* Reservations */
-#site-reservations #content-panel { margin:72px 0px 0px 280px; width:700px; height:347px; background:url(images/reservations_content_panel_bg.png); }
+#site-reservations #content-panel { margin:72px 0px 0px 280px; width:700px; height:347px; background:url('images/reservations_content_panel_bg.png'); }
 #site-reservations #content-panel div.title { padding:22px 0px 0px 43px; }
 #site-reservations #content-panel div.content { padding:10px 15px 0px 15px; }
 #site-reservations #page-getglue-link { margin:15px auto 0px auto; width:250px; }
 
 /* Rooms */
-#site-rooms #content-panel { margin:72px 0px 0px 280px; width:700px; height:456px; background:url(images/rooms_content_panel_bg.png); }
+#site-rooms #content-panel { margin:72px 0px 0px 280px; width:700px; height:456px; background:url('images/rooms_content_panel_bg.png'); }
 #site-rooms #content-panel div.title { padding:22px 0px 0px 43px; }
 #site-rooms #content-panel div.content { padding:22px 15px 0px 15px; }
 #site-rooms #page-pinterest-link { margin:28px auto 0px auto; width:169px; }
 
 /* Gift Shop */
-#site-gifts #content-panel { margin:72px 0px 0px 145px; width:845px; height:596px; background:url(images/content_panel_bg.png); position: relative;}
+#site-gifts #content-panel { margin:72px 0px 0px 145px; width:845px; height:596px; background:url('images/content_panel_bg.png'); position: relative;}
 #site-gifts #content-panel div.title { padding:27px 0px 0px 55px; }
 #site-gifts #content-panel div.content { padding:22px 15px 0px 15px;}
 #site-gifts #content-panel div.content a {position: absolute; right: 55px; bottom: 80px;}
 
 /* Attractions */
-#site-attractions #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url(images/content_panel_bg.png); }
+#site-attractions #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url('images/content_panel_bg.png'); }
 #site-attractions #content-panel div.title { padding:9px 0px 0px 20px; }
 #site-attractions #content-panel div.content { padding:6px 18px 0px 18px; }
 #site-attractions #page-attractions-scrollbox { height:464px; overflow:auto; }
@@ -153,11 +153,11 @@ a { color:#00406b; }
 
 /* Photos */
 /*
-#site-photos #content-panel { margin:72px 0px 0px 280px; width:700px; height:240px; background:url(images/content_panel_bg.png); }
+#site-photos #content-panel { margin:72px 0px 0px 280px; width:700px; height:240px; background:url('images/content_panel_bg.png'); }
 #site-photos #content-panel div.title { padding:22px 0px 0px 42px; }
 #site-photos #content-panel div.content { padding:30px 0px 0px 0px; }
 */
-#site-photos #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url(images/photos_content_panel_bg.png); }
+#site-photos #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url('images/photos_content_panel_bg.png'); }
 #site-photos #content-panel div.title { padding:9px 0px 0px 20px; }
 #site-photos #content-panel div.content { padding:11px 0px 0px 18px; }
 #site-photos #page-title { font-family:'reklame_script_regular_demoRg'; font-size:30px; }
