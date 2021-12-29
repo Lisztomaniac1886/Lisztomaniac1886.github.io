@@ -141,7 +141,7 @@ a { color:#00406b; }
 #site-gifts #content-panel div.content a {position: absolute; right: 55px; bottom: 80px;}
 
 /* Attractions */
-#site-attractions #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url('images/content_panel_bg.png'); }
+#site-attractions #content-panel { margin:85px 0px 0px 185px; width:777px; height:551px; background:url('images/attractions_content_panel_bg.png'); }
 #site-attractions #content-panel div.title { padding:9px 0px 0px 20px; }
 #site-attractions #content-panel div.content { padding:6px 18px 0px 18px; }
 #site-attractions #page-attractions-scrollbox { height:464px; overflow:auto; }
