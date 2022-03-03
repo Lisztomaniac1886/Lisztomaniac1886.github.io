@@ -64,7 +64,7 @@ height: 100%;
   .mobile {display:none}
   .desktop {display:block}
   .main {
-    background-color: #f0c3be;
+    background-color: #21000d;
     width:75%;
     min-height: 1000px;
     margin-left: auto;
@@ -80,15 +80,30 @@ height: 100%;
   margin-left: 25px;
   margin-right: 25px;
   }
+   body{
+animation: background-fade 10s infinite;    
+}
+
+@keyframes background-fade {
+    0% {
+        background:#df3a36;
+    }
+    50% {
+        background:#eae3dd;
+    }
+    100% {
+        background:#2d3a64;
+    }
+  }
 }
 @media only screen and (max-width: 600px) {
   body {font-size: 20px;
     background-image:none;
-  background-color: #insercolorhere!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!;}
+  background-color: #21000d;}
   .mobile {display:block}
   .desktop {display:none}
   .main {
-    background-color: #f0c3be;
+    background-color: #21000d;
     width:100%;
     margin-left: auto;
     margin-right: auto;
@@ -105,22 +120,6 @@ background-color: white;
 text-align:center;
 margin-left: auto;
 margin-right: auto;
-}
-  body{
-
-animation: background-fade 10s infinite;    
-}
-
-@keyframes background-fade {
-    0% {
-        background:#df3a36;
-    }
-    50% {
-        background:#eae3dd;
-    }
-    100% {
-        background:#2d3a64;
-    }
 }
 </style>
 <title>Tour de Pharmacy (2017)</title>
