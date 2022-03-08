@@ -5,7 +5,7 @@ color: inherit;
 text-decoration: none;
 }
 @media only screen and (min-width: 800px){
-body {font-size:16px; font-family:Calibri; color:white; background-image:url('bg.jpg'); background-repeat:no-repeat; background-attachment: fixed; background-size: cover;}
+body {font-size:25px; font-family:Calibri; color:white; background-image:url('bg.jpg'); background-repeat:no-repeat; background-attachment: fixed; background-size: cover;}
 .previous {float:left; color: white;  text-align:center;}
 .next {float:right; color: white; text-align:center;}
 .nomob {display: block;}
