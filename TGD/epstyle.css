@@ -35,7 +35,7 @@ margin-right: 10px;
 .iframe  {
 position: relative;
 overflow: hidden;
-width: 80%;
+width: 100%;
 padding-top: 45%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 .responsive-iframe {
